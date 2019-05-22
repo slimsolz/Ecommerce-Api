@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/slimsolz/Ecommerce-Api.svg?token=S86sz7wxwHnxzHFCgZL5&branch=develop)](https://travis-ci.com/slimsolz/Ecommerce-Api)
+
 # Ecommerce-Api
 
 An e-commerce system which allows users to search, add items to their shopping cart, create orders, and checkout successfully.

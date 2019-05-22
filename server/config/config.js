@@ -1,25 +1,36 @@
-import dotenv from 'dotenv';
+require('dotenv').config();
 
-dotenv.config();
-
-const config = {
-  "development": {
-    "username": process.env.DB_USERNAME,
-    "password": process.env.DB_PASSWORD,
-    "database": process.env.DB_DEVELOPMENT,
-    "host": process.env.DB_HOST,
-    "dialect": "mysql"
+module.exports = {
+  development: {
+    username: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DEVELOPMENT,
+    host: process.env.DB_HOST,
+    dialect: process.env.DB_DIALECT,
+    operatorsAliases: false,
+    define: {
+      timestamps: false
+    }
   },
-  "test": {
-    "username": process.env.DB_USERNAME,
-    "password": process.env.DB_PASSWORD,
-    "database": process.env.DB_TEST,
-    "host": process.env.DB_HOST,
-    "dialect": "mysql"
+  test: {
+    username: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_TEST,
+    host: process.env.DB_HOST,
+    dialect: process.env.DB_DIALECT,
+    operatorsAliases: false,
+    define: {
+      timestamps: false
+    }
   },
-  "production": {
-    "database": process.env.DB_PRODUCTION,
+  production: {
+    username: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME_PRODUCTION,
+    dialect: process.env.DB_DIALECT,
+    operatorsAliases: false,
+    define: {
+      timestamps: false
+    }
   }
-}
-
-export default config;
+};

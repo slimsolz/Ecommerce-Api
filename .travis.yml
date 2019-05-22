@@ -5,6 +5,14 @@ env:
   - NODE_ENV=test
 services:
   - mysql
+before_script:
+  - mysql -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'kobeBryant_24';"
+  - mysql -u root --password="kobeBryant_24" -e 'CREATE DATABASE turing_test;'
+  - mysql -u root -e "GRANT ALL ON turing_test.* TO 'root'@'localhost';"
+  - chmod 0777 ./node_modules/.bin/mocha
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
 script:
   - npm test
 cache:

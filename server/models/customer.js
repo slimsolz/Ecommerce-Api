@@ -1,12 +1,13 @@
 /* jshint indent: 1 */
 
-module.exports = function(sequelize, DataTypes) {
-	return sequelize.define('customer', {
+module.exports = (sequelize, DataTypes) => {
+	const Customer = sequelize.define('Customer', {
 		customerId: {
 			type: DataTypes.INTEGER(11),
 			allowNull: false,
 			primaryKey: true,
-			field: 'customer_id'
+			field: 'customer_id',
+			autoIncrement: true
 		},
 		name: {
 			type: DataTypes.STRING(50),
@@ -20,7 +21,7 @@ module.exports = function(sequelize, DataTypes) {
 			field: 'email'
 		},
 		password: {
-			type: DataTypes.STRING(50),
+			type: DataTypes.STRING(100),
 			allowNull: false,
 			field: 'password'
 		},
@@ -83,4 +84,6 @@ module.exports = function(sequelize, DataTypes) {
 	}, {
 		tableName: 'customer'
 	});
+
+	return Customer;
 };
