@@ -164,4 +164,21 @@ export const validateUpdateCreditCard = (req, res, next) => {
   }
 }
 
+export const validateReviews = (req, res, next) => {
+  const {
+    review, rating
+  } = req.body;
+  let statusCode = 400;
 
+  if (!review) {
+    errorResponse(res, statusCode, 'USR_02', 'The field is required', 'review');
+  } else if(review && typeof(review) !== 'string') {
+    errorResponse(res, statusCode, 'USR_03', 'The review is invalid', 'review');
+  } if (!rating) {
+    errorResponse(res, statusCode, 'USR_02', 'The field is required', 'rating');
+  } else if(rating && typeof(rating) !== 'number') {
+    errorResponse(res, statusCode, 'USR_03', 'The rating is invalid', 'rating');
+  } else {
+    return next();
+  }
+}

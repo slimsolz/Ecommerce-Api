@@ -43,7 +43,7 @@ export const successResponseWithToken = (res, code, customer, token) => {
 }
 
 export const errorResponse = (res, statusCode, errorCode, errorMessage, field) => {
-  res.status(statusCode).json({
+  return res.status(statusCode).json({
     "error": {
       "status": statusCode,
       "code": errorCode,
