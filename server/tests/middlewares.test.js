@@ -799,3 +799,31 @@ describe('update review validation', () => {
       });
   });
 });
+
+describe('attribute params validation', () => {
+  it('should fail if params isn\'t an integer', (done) => {
+    chai.request(app)
+      .get('/api/v1/attributes/wer')
+      .end((err, res) => {
+        expect(res).to.have.status(400);
+        expect(res.body.error.code).to.equal('ATT_02');
+        expect(res.body.error.field).to.equal('attribute_id');
+        expect(res.body.error.message).to.equal('The attribute_id is not a number');
+        done();
+      })
+  });
+});
+
+describe('tax params validation', () => {
+  it('should fail if params isn\'t an integer', (done) => {
+    chai.request(app)
+      .get('/api/v1/taxes/wer')
+      .end((err, res) => {
+        expect(res).to.have.status(400);
+        expect(res.body.error.code).to.equal('TAX_02');
+        expect(res.body.error.field).to.equal('tax_id');
+        expect(res.body.error.message).to.equal('The tax_id is not a number');
+        done();
+      })
+  });
+});
