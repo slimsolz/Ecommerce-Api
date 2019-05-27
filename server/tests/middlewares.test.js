@@ -1,7 +1,6 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import faker from 'faker';
-import { Customer } from '../models';
 import app from '../app';
 
 const { expect } = chai;
@@ -27,7 +26,6 @@ const customer1 = {
 let token = '';
 
 before((done) => {
-  Customer.destroy({ truncate: true });
   chai.request(app)
     .post('/api/v1/customers')
     .send({
@@ -687,6 +685,116 @@ describe('update customer validation', () => {
         expect(res.body.error.code).to.equal('USR_03');
         expect(res.body.error.field).to.equal('credit_card');
         expect(res.body.error.message).to.equal('The credit_card is invalid');
+        done();
+      });
+  });
+});
+
+describe('params validation', () => {
+  it('should fail if params isn\'t an integer', (done) => {
+    chai.request(app)
+      .get('/api/v1/products/wer')
+      .end((err, res) => {
+        expect(res).to.have.status(400);
+        expect(res.body.error.code).to.equal('PRD_1');
+        expect(res.body.error.field).to.equal('product_id');
+        expect(res.body.error.message).to.equal('The product_id is not a number');
+        done();
+      })
+  });
+});
+
+describe('category params validation', () => {
+  it('should fail if params isn\'t an integer', (done) => {
+    chai.request(app)
+      .get('/api/v1/products/inCategory/wer')
+      .end((err, res) => {
+        expect(res).to.have.status(400);
+        expect(res.body.error.code).to.equal('CAT_1');
+        expect(res.body.error.field).to.equal('category_id');
+        expect(res.body.error.message).to.equal('The category_id is not a number');
+        done();
+      })
+  });
+});
+
+describe('department params validation', () => {
+  it('should fail if params isn\'t an integer', (done) => {
+    chai.request(app)
+      .get('/api/v1/products/inDepartment/wer')
+      .end((err, res) => {
+        expect(res).to.have.status(400);
+        expect(res.body.error.code).to.equal('DPT_1');
+        expect(res.body.error.field).to.equal('department_id');
+        expect(res.body.error.message).to.equal('The department_id is not a number');
+        done();
+      })
+  });
+});
+
+describe('update review validation', () => {
+  it('should fail if review in not provided', (done) => {
+    chai.request(app)
+      .post('/api/v1/products/1/reviews')
+      .set('USER-KEY', token)
+      .send({
+        rating: 1
+      })
+      .end((err, res) => {
+        expect(res).to.have.status(400);
+        expect(res.body.error.code).to.equal('USR_02');
+        expect(res.body.error.field).to.equal('review');
+        expect(res.body.error.message).to.equal('The field is required');
+        done();
+      });
+  });
+
+  it('should fail if review is invalid', (done) => {
+    chai.request(app)
+      .post('/api/v1/products/1/reviews')
+      .set('USER-KEY', token)
+      .send({
+        review: 123,
+        rating: 1
+      })
+      .end((err, res) => {
+        expect(res).to.have.status(400);
+        expect(res.body.error.code).to.equal('USR_03');
+        expect(res.body.error.field).to.equal('review');
+        expect(res.body.error.message).to.equal('The review is invalid');
+        done();
+      });
+  });
+
+  it('should fail if rating in not provided', (done) => {
+    chai.request(app)
+      .post('/api/v1/products/1/reviews')
+      .set('USER-KEY', token)
+      .send({
+        review: 'sweet'
+      })
+      .end((err, res) => {
+        expect(res).to.have.status(400);
+        expect(res.body.error.code).to.equal('USR_02');
+        expect(res.body.error.field).to.equal('rating');
+        expect(res.body.error.message).to.equal('The field is required');
+        done();
+      });
+  });
+
+  it('should fail if rating is invalid', (done) => {
+    chai.request(app)
+      .post('/api/v1/products/1/reviews')
+      .set('USER-KEY', token)
+      .send({
+        review: 'good',
+        rating: 'good'
+      })
+      .end((err, res) => {
+        expect(res).to.have.status(400);
+        expect(res.body.error.code).to.equal('USR_03');
+        expect(res.body.error.field).to.equal('rating');
+        expect(res.body.error.message).to.equal('The rating is invalid');
         done();
       });
   });

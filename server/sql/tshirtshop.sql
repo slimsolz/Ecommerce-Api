@@ -448,12 +448,12 @@ CREATE PROCEDURE catalog_get_products_on_department(
   IN inProductsPerPage INT, IN inStartItem INT)
 BEGIN
   PREPARE statement FROM
-    "SELECT DISTINCT p.product_id, p.name,
-                     IF(LENGTH(p.description) <= ?,
-                        p.description,
-                        CONCAT(LEFT(p.description, ?),
-                               '...')) AS description,
-                     p.price, p.discounted_price, p.thumbnail
+    "SELECT  p.product_id, p.name,
+                  IF(LENGTH(p.description) <= ?,
+                    p.description,
+                    CONCAT(LEFT(p.description, ?),
+                            '...')) AS description,
+                  p.price, p.discounted_price, p.thumbnail
      FROM            product p
      INNER JOIN      product_category pc
                        ON p.product_id = pc.product_id
