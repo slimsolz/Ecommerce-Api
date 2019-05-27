@@ -30,3 +30,23 @@ export const validateDepartmentParams = (req, res, next) => {
   }
   return next();
 };
+
+export const validateAttributeParams = (req, res, next) => {
+  const reqId = req.params.attribute_id;
+  const id = isInt(reqId);
+
+  if (!id) {
+    return errorResponse(res, 400, 'ATT_02' , 'The attribute_id is not a number', 'attribute_id');
+  }
+  return next();
+};
+
+export const validateTaxParams = (req, res, next) => {
+  const reqId = req.params.tax_id;
+  const id = isInt(reqId);
+
+  if (!id) {
+    return errorResponse(res, 400, 'TAX_02' , 'The tax_id is not a number', 'tax_id');
+  }
+  return next();
+};

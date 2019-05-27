@@ -22,7 +22,7 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>26/26</span>
+        <span class='fraction'>42/42</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -37,7 +37,7 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>26/26</span>
+        <span class='fraction'>42/42</span>
       </div>
     </div>
     <p class="quiet">
@@ -89,7 +89,34 @@
 <a name='L41'></a><a href='#L41'>41</a>
 <a name='L42'></a><a href='#L42'>42</a>
 <a name='L43'></a><a href='#L43'>43</a>
-<a name='L44'></a><a href='#L44'>44</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L44'></a><a href='#L44'>44</a>
+<a name='L45'></a><a href='#L45'>45</a>
+<a name='L46'></a><a href='#L46'>46</a>
+<a name='L47'></a><a href='#L47'>47</a>
+<a name='L48'></a><a href='#L48'>48</a>
+<a name='L49'></a><a href='#L49'>49</a>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -99,6 +126,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -122,6 +152,22 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -135,12 +181,19 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import express from 'express';
 import CustomerController from '../controllers/CustomerController';
 import ProductController from '../controllers/ProductController';
+import DepartmentController from '../controllers/DepartmentController';
+import CategoryController from '../controllers/CategoryController';
+import AttributeController from '../controllers/AttributeController';
+import TaxController from '../controllers/TaxController';
 import { isLoggedIn } from '../middlewares/authenticate';
 import {
   validateRegister, validateLogin, validateReviews,
   validateUpdateCustomer, validateUpdateAddress, validateUpdateCreditCard
 } from '../middlewares/validation';
-import { validateParams, validateCategoryParams, validateDepartmentParams } from '../middlewares/paramsValidation';
+import {
+  validateParams, validateCategoryParams,
+  validateDepartmentParams, validateAttributeParams, validateTaxParams
+} from '../middlewares/paramsValidation';
 &nbsp;
 const router = express.Router();
 &nbsp;
@@ -168,6 +221,22 @@ router.post('/products/:product_id/reviews', isLoggedIn, validateParams, validat
 router.get('/products/inCategory/:category_id', validateCategoryParams, ProductController.getProductInCategory);
 router.get('/products/inDepartment/:department_id', validateDepartmentParams, ProductController.getProductInDepartment);
 &nbsp;
+router.get('/departments', DepartmentController.getAllDepartments);
+router.get('/departments/:department_id', validateDepartmentParams, DepartmentController.getOneDepartment);
+&nbsp;
+router.get('/categories', CategoryController.getAllCategories);
+router.get('/categories/:category_id', validateCategoryParams, CategoryController.getOneCategory);
+router.get('/categories/inProduct/:product_id', validateParams, CategoryController.getOneCategoryInProduct);
+router.get('/categories/inDepartment/:department_id', validateDepartmentParams, CategoryController.getOneCategoryInDepartment);
+&nbsp;
+router.get('/attributes', AttributeController.getAllAttributes);
+router.get('/attributes/:attribute_id', validateAttributeParams, AttributeController.getOneAttribute);
+router.get('/attributes/values/:attribute_id', validateAttributeParams, AttributeController.getAttributeValues);
+router.get('/attributes/inProduct/:product_id', validateParams, AttributeController.getAttributeInProduct);
+&nbsp;
+router.get('/taxes', TaxController.getAllTaxes);
+router.get('/taxes/:tax_id', validateTaxParams, TaxController.getOneTax);
+&nbsp;
 router.all('*', (req, res) =&gt; {
   res.status(404).json({
     message: 'Endpoint not found'
@@ -181,7 +250,7 @@ export default router;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon May 27 2019 05:04:20 GMT+0100 (WAT)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon May 27 2019 06:32:38 GMT+0100 (WAT)
 </div>
 </div>
 <script src="../../prettify.js"></script>
