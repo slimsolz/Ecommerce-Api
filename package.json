@@ -26,6 +26,7 @@
     "lodash.isempty": "^4.4.0",
     "morgan": "^1.9.1",
     "mysql2": "^1.6.5",
+    "randomstring": "^1.1.5",
     "sequelize": "^5.8.6",
     "sequelize-cli": "^5.4.0",
     "validator": "^10.11.0"

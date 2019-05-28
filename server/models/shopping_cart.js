@@ -1,12 +1,13 @@
 /* jshint indent: 1 */
 
 module.exports = function(sequelize, DataTypes) {
-	return sequelize.define('shoppingCart', {
+	return sequelize.define('ShoppingCart', {
 		itemId: {
 			type: DataTypes.INTEGER(11),
 			allowNull: false,
 			primaryKey: true,
-			field: 'item_id'
+			field: 'item_id',
+			autoIncrement: true
 		},
 		cartId: {
 			type: DataTypes.CHAR(32),

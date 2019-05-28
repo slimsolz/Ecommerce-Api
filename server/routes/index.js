@@ -5,13 +5,15 @@ import DepartmentController from '../controllers/DepartmentController';
 import CategoryController from '../controllers/CategoryController';
 import AttributeController from '../controllers/AttributeController';
 import TaxController from '../controllers/TaxController';
+import ShippingRegionController from '../controllers/ShippingRegionController';
+import ShoppingCartController from '../controllers/ShoppingCartController';
 import { isLoggedIn } from '../middlewares/authenticate';
 import {
   validateRegister, validateLogin, validateReviews,
   validateUpdateCustomer, validateUpdateAddress, validateUpdateCreditCard
 } from '../middlewares/validation';
 import {
-  validateParams, validateCategoryParams,
+  validateParams, validateCategoryParams, validateShippingRegionParams,
   validateDepartmentParams, validateAttributeParams, validateTaxParams
 } from '../middlewares/paramsValidation';
 
@@ -56,6 +58,21 @@ router.get('/attributes/inProduct/:product_id', validateParams, AttributeControl
 
 router.get('/taxes', TaxController.getAllTaxes);
 router.get('/taxes/:tax_id', validateTaxParams, TaxController.getOneTax);
+
+router.get('/shipping/regions', ShippingRegionController.getAllShippingRegion);
+router.get('/shipping/regions/:shipping_region_id', validateShippingRegionParams, ShippingRegionController.getOneShoppingRegion);
+
+router.get('/shoppingcart/generateUniqueId', ShoppingCartController.generateUniqueId);
+router.post('/shoppingcart/add', ShoppingCartController.addProductToCart);
+router.get('/shoppingcart/:cart_id', ShoppingCartController.getShoppingCartList);
+router.put('/shoppingcart/update/:item_id', ShoppingCartController.updateShoppingCartList);
+router.delete('/shoppingcart/empty/:cart_id', ShoppingCartController.emptyShoppingCart);
+router.get('/shoppingcart/moveToCart/:item_id', ShoppingCartController.moveToCart);
+router.get('/shoppingcart/totalAmount/:cart_id', ShoppingCartController.getTotalAmount);
+router.get('/shoppingcart/saveForLater/:item_id', ShoppingCartController.saveForLater);
+router.get('/shoppingcart/getSaved/:cart_id', ShoppingCartController.getSaved);
+router.delete('/shoppingcart/removeProduct/:item_id', ShoppingCartController.removeProduct);
+
 
 router.all('*', (req, res) => {
   res.status(404).json({
