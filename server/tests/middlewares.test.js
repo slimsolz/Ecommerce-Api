@@ -827,3 +827,17 @@ describe('tax params validation', () => {
       })
   });
 });
+
+describe('shipping region params validation', () => {
+  it('should fail if params isn\'t an integer', (done) => {
+    chai.request(app)
+      .get('/api/v1/shipping/regions/wer')
+      .end((err, res) => {
+        expect(res).to.have.status(400);
+        expect(res.body.error.code).to.equal('SHP_02');
+        expect(res.body.error.field).to.equal('shipping_region_id');
+        expect(res.body.error.message).to.equal('The shipping_region_id is not a number');
+        done();
+      })
+  });
+});

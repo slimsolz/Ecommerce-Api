@@ -5,10 +5,10 @@ env:
   - NODE_ENV=test
 services:
   - mysql
+before_install:
+  - sudo mysql -e "use mysql; update user set authentication_string=PASSWORD('kobeBryant_24') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
 before_script:
-  - mysql -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'kobeBryant_24';"
-  - mysql -u root --password="kobeBryant_24" -e 'CREATE DATABASE turing_test;'
-  - mysql -u root -e "GRANT ALL ON turing_test.* TO 'root'@'localhost';"
+  - sudo mysql -e 'CREATE DATABASE turing_test;'
   - chmod 0777 ./node_modules/.bin/mocha
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter

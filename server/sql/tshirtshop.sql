@@ -1028,10 +1028,10 @@ BEGIN
   DELETE FROM shopping_cart WHERE item_id = inItemId;
 END$$
 
--- Create shopping_cart_get_products stored procedure
+-- Create shopping_cart_get_products stored procedure (modified)
 CREATE PROCEDURE shopping_cart_get_products(IN inCartId CHAR(32))
 BEGIN
-  SELECT     sc.item_id, p.name, sc.attributes,
+  SELECT     sc.item_id, p.name, sc.attributes, sc.product_id, p.image,
              COALESCE(NULLIF(p.discounted_price, 0), p.price) AS price,
              sc.quantity,
              COALESCE(NULLIF(p.discounted_price, 0),

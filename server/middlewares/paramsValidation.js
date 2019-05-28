@@ -50,3 +50,13 @@ export const validateTaxParams = (req, res, next) => {
   }
   return next();
 };
+
+export const validateShippingRegionParams = (req, res, next) => {
+  const reqId = req.params.shipping_region_id;
+  const id = isInt(reqId);
+
+  if (!id) {
+    return errorResponse(res, 400, 'SHP_02' , 'The shipping_region_id is not a number', 'shipping_region_id');
+  }
+  return next();
+};
