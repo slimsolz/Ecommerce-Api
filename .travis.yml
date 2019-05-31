@@ -5,10 +5,28 @@ env:
   - NODE_ENV=test
 services:
   - mysql
-before_install:
-  - sudo mysql -e "use mysql; update user set authentication_string=PASSWORD('kobeBryant_24') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
+install:
+  - npm install
+# before_install:
+#   - sudo mysql -u root -e "CREATE DATABASE IF NOT EXISTS \`database\`;"
+#   - sudo mysql -u root -e "CREATE USER 'travis'@'localhost';"
+#   - sudo mysql -u root -e "GRANT ALL ON *.* TO 'travis'@'localhost'; FLUSH PRIVILEGES;"
+#   - sudo mysql -u root -e "FLUSH PRIVILEGES;"
+#   - sudo service mysql restart
+#   - sudo apt-get update
+  # - mysql -u root -e "CREATE USER 'travis'@'localhost'; GRANT ALL ON *.* TO 'travis'@'localhost'; FLUSH PRIVILEGES;"
+  # - sudo mysql -e "GRANT ALL PRIVILEGES ON turing_test.* TO 'root'@'localhost';"
+  # - sudo mysql -e "update user set authentication_string=PASSWORD('kobeBryant_24') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
+  # - sudo mysql_upgrade -u root -pnew_password
+  # - sudo service mysql restart
 before_script:
-  - sudo mysql -e 'CREATE DATABASE turing_test;'
+  - sudo mysql -e 'CREATE DATABASE IF NOT EXISTS turing_test;'
+  - sudo mysql -u root -e "GRANT ALL ON *.* TO 'travis'@'localhost'; FLUSH PRIVILEGES;"
+  - sudo mysql -e 'show databases;'
+  - sudo mysql -e -D turing_test;
+  - sudo mysql -e 'create table testing(name varchar(50), password(50));'
+  - sudo mysql e 'show tables;'
+  # - mysql -e 'show databases;
   - chmod 0777 ./node_modules/.bin/mocha
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
