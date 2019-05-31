@@ -169,7 +169,11 @@ describe('PUT /customers', () => {
       .set('USER-KEY', token)
       .send({
         email: customer2.email,
-        name: customer2.name
+        name: customer2.name,
+        password: '',
+        day_phone: '',
+        eve_phone: '',
+        mob_phone: '',
       })
       .end((err, res) => {
         expect(res).to.have.status(200);

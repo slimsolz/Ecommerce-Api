@@ -1,7 +1,9 @@
 import jwt from 'jsonwebtoken';
 import { hashPassword, verifyPassword } from '../helpers/encrypt';
 import { successResponse, successResponseWithToken, errorResponse } from '../helpers/responseHelper';
-import { Customer } from '../models';
+import Model from '../models';
+
+const { Customer } = Model;
 
 require('dotenv').config();
 
@@ -82,11 +84,8 @@ export default class CustomerController {
    */
   static getCustomer(req, res) {
     const { customerId } = req;
-
-    Customer.findOne({ where: { customerId }})
-      .then(customer => {
-        successResponse(res, 200, customer);
-      });
+    Model.sequelize.query(`CALL customer_get_customer(${customerId})`)
+      .then(customer => res.json(customer));
   }
 
   /**

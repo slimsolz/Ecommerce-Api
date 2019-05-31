@@ -137,7 +137,7 @@ describe('PUT /shoppingcart/update/{item_id}', () => {
 
   it('should fail to update shopping_cart', (done) => {
     chai.request(app)
-      .put(`/api/v1/shoppingcart/update/aulfh3naow3sfludun`)
+      .put(`/api/v1/shoppingcart/update/900000000`)
       .send({ quantity: 5 })
       .end((err, res) => {
         expect(res).to.have.status(404);
@@ -184,7 +184,7 @@ describe('GET /shoppingcart/moveToCart/{item_id}', () => {
 
   it('should fail to move to cart', (done) => {
     chai.request(app)
-      .get(`/api/v1/shoppingcart/moveToCart/aulfh3naow3sfludun`)
+      .get(`/api/v1/shoppingcart/moveToCart/90000000`)
       .end((err, res) => {
         expect(res).to.have.status(404);
         expect(res.body.error.code).to.equal('ITM_02');
@@ -233,7 +233,7 @@ describe('GET /shoppingcart/saveForLater/{item_id}', () => {
 
   it('should fail to save for later shopping_cart', (done) => {
     chai.request(app)
-      .get(`/api/v1/shoppingcart/saveForLater/aulfh3naow3sfludun`)
+      .get(`/api/v1/shoppingcart/saveForLater/9000000`)
       .end((err, res) => {
         expect(res).to.have.status(404);
         expect(res.body.error.code).to.equal('ITM_02');
@@ -280,7 +280,7 @@ describe('GET /shoppingcart/removeProduct/{item_id}', () => {
 
   it('should fail to remove product', (done) => {
     chai.request(app)
-      .delete(`/api/v1/shoppingcart/removeProduct/aulfh3naow3sfludun`)
+      .delete(`/api/v1/shoppingcart/removeProduct/90000000`)
       .end((err, res) => {
         expect(res).to.have.status(404);
         expect(res.body.error.code).to.equal('ITM_02');

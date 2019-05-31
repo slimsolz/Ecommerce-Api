@@ -60,3 +60,23 @@ export const validateShippingRegionParams = (req, res, next) => {
   }
   return next();
 };
+
+export const validateOrderParams = (req, res, next) => {
+  const reqId = req.params.order_id;
+  const id = isInt(reqId);
+
+  if (!id) {
+    return errorResponse(res, 400, 'ORD_01' , 'The order_id is not a number', 'order_id');
+  }
+  return next();
+};
+
+export const validateItemParams = (req, res, next) => {
+  const reqId = req.params.item_id;
+  const id = isInt(reqId);
+
+  if (!id) {
+    return errorResponse(res, 400, 'ITM_01' , 'The item_id is not a number', 'item_id');
+  }
+  return next();
+};

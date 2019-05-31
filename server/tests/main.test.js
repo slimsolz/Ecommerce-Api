@@ -12,7 +12,6 @@ describe('GET /', () => {
       .get('/api/v1/')
       .end((err, res) => {
         expect(res).to.have.status(200);
-        expect(res.body.status).to.be.equal('success');
         expect(res.body.message).to.be.equal('Welcome to Turing eCommerce');
         done();
       });

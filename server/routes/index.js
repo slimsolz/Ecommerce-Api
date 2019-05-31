@@ -7,6 +7,7 @@ import AttributeController from '../controllers/AttributeController';
 import TaxController from '../controllers/TaxController';
 import ShippingRegionController from '../controllers/ShippingRegionController';
 import ShoppingCartController from '../controllers/ShoppingCartController';
+import OrderController from '../controllers/OrderController';
 import { isLoggedIn } from '../middlewares/authenticate';
 import {
   validateRegister, validateLogin, validateReviews,
@@ -14,14 +15,14 @@ import {
 } from '../middlewares/validation';
 import {
   validateParams, validateCategoryParams, validateShippingRegionParams,
-  validateDepartmentParams, validateAttributeParams, validateTaxParams
+  validateDepartmentParams, validateAttributeParams, validateTaxParams,
+  validateOrderParams, validateItemParams
 } from '../middlewares/paramsValidation';
 
 const router = express.Router();
 
 router.get('/', (req, res) => {
   res.json({
-    status: 'success',
     message: 'Welcome to Turing eCommerce'
   });
 });
@@ -65,13 +66,18 @@ router.get('/shipping/regions/:shipping_region_id', validateShippingRegionParams
 router.get('/shoppingcart/generateUniqueId', ShoppingCartController.generateUniqueId);
 router.post('/shoppingcart/add', ShoppingCartController.addProductToCart);
 router.get('/shoppingcart/:cart_id', ShoppingCartController.getShoppingCartList);
-router.put('/shoppingcart/update/:item_id', ShoppingCartController.updateShoppingCartList);
+router.put('/shoppingcart/update/:item_id', validateItemParams, ShoppingCartController.updateShoppingCartList);
 router.delete('/shoppingcart/empty/:cart_id', ShoppingCartController.emptyShoppingCart);
-router.get('/shoppingcart/moveToCart/:item_id', ShoppingCartController.moveToCart);
+router.get('/shoppingcart/moveToCart/:item_id', validateItemParams, ShoppingCartController.moveToCart);
 router.get('/shoppingcart/totalAmount/:cart_id', ShoppingCartController.getTotalAmount);
-router.get('/shoppingcart/saveForLater/:item_id', ShoppingCartController.saveForLater);
+router.get('/shoppingcart/saveForLater/:item_id', validateItemParams, ShoppingCartController.saveForLater);
 router.get('/shoppingcart/getSaved/:cart_id', ShoppingCartController.getSaved);
-router.delete('/shoppingcart/removeProduct/:item_id', ShoppingCartController.removeProduct);
+router.delete('/shoppingcart/removeProduct/:item_id', validateItemParams, ShoppingCartController.removeProduct);
+
+router.post('/orders', isLoggedIn, OrderController.createOrder);
+router.get('/orders/inCustomer', isLoggedIn, OrderController.getOrderByCustomer);
+router.get('/orders/:order_id', validateOrderParams, isLoggedIn, OrderController.getOrderInfo);
+router.get('/orders/shortDetails/:order_id', validateOrderParams, isLoggedIn, OrderController.getOrderDetails);
 
 
 router.all('*', (req, res) => {

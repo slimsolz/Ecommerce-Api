@@ -1197,7 +1197,7 @@ END$$
 
 -- Create customer_add stored procedure
 CREATE PROCEDURE customer_add(IN inName VARCHAR(50),
-  IN inEmail VARCHAR(100), IN inPassword VARCHAR(50))
+  IN inEmail VARCHAR(100), IN inPassword VARCHAR(100))
 BEGIN
   INSERT INTO customer (name, email, password)
          VALUES (inName, inEmail, inPassword);
@@ -1217,8 +1217,8 @@ END$$
 
 -- Create customer_update_account stored procedure
 CREATE PROCEDURE customer_update_account(IN inCustomerId INT,
-  IN inName VARCHAR(50), IN inEmail VARCHAR(100),
-  IN inPassword VARCHAR(50), IN inDayPhone VARCHAR(100),
+  IN inName VARCHAR(100), IN inEmail VARCHAR(100),
+  IN inPassword VARCHAR(100), IN inDayPhone VARCHAR(100),
   IN inEvePhone VARCHAR(100), IN inMobPhone VARCHAR(100))
 BEGIN
   UPDATE customer
