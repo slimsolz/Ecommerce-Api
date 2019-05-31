@@ -705,7 +705,7 @@ describe('params validation', () => {
 });
 
 describe('category params validation', () => {
-  it('should fail if params isn\'t an integer', (done) => {
+  it('should fail if category params isn\'t an integer', (done) => {
     chai.request(app)
       .get('/api/v1/products/inCategory/wer')
       .end((err, res) => {
@@ -719,7 +719,7 @@ describe('category params validation', () => {
 });
 
 describe('department params validation', () => {
-  it('should fail if params isn\'t an integer', (done) => {
+  it('should fail if department params isn\'t an integer', (done) => {
     chai.request(app)
       .get('/api/v1/products/inDepartment/wer')
       .end((err, res) => {
@@ -801,7 +801,7 @@ describe('update review validation', () => {
 });
 
 describe('attribute params validation', () => {
-  it('should fail if params isn\'t an integer', (done) => {
+  it('should fail if attribute params isn\'t an integer', (done) => {
     chai.request(app)
       .get('/api/v1/attributes/wer')
       .end((err, res) => {
@@ -815,7 +815,7 @@ describe('attribute params validation', () => {
 });
 
 describe('tax params validation', () => {
-  it('should fail if params isn\'t an integer', (done) => {
+  it('should fail if tax params isn\'t an integer', (done) => {
     chai.request(app)
       .get('/api/v1/taxes/wer')
       .end((err, res) => {
@@ -828,8 +828,8 @@ describe('tax params validation', () => {
   });
 });
 
-describe('shipping region params validation', () => {
-  it('should fail if params isn\'t an integer', (done) => {
+describe('params validation', () => {
+  it('should fail if shipping region params isn\'t an integer', (done) => {
     chai.request(app)
       .get('/api/v1/shipping/regions/wer')
       .end((err, res) => {
@@ -837,6 +837,30 @@ describe('shipping region params validation', () => {
         expect(res.body.error.code).to.equal('SHP_02');
         expect(res.body.error.field).to.equal('shipping_region_id');
         expect(res.body.error.message).to.equal('The shipping_region_id is not a number');
+        done();
+      })
+  });
+
+  it('should fail if item params isn\'t an integer', (done) => {
+    chai.request(app)
+      .get('/api/v1/shoppingcart/moveToCart/wer')
+      .end((err, res) => {
+        expect(res).to.have.status(400);
+        expect(res.body.error.code).to.equal('ITM_01');
+        expect(res.body.error.field).to.equal('item_id');
+        expect(res.body.error.message).to.equal('The item_id is not a number');
+        done();
+      })
+  });
+
+  it('should fail if order params isn\'t an integer', (done) => {
+    chai.request(app)
+      .get('/api/v1/orders/wer')
+      .end((err, res) => {
+        expect(res).to.have.status(400);
+        expect(res.body.error.code).to.equal('ORD_01');
+        expect(res.body.error.field).to.equal('order_id');
+        expect(res.body.error.message).to.equal('The order_id is not a number');
         done();
       })
   });
