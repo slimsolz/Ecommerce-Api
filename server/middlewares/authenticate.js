@@ -11,7 +11,7 @@ import { errorResponse } from '../helpers/responseHelper';
  * @returns
  */
 export const isLoggedIn = (req, res, next) => {
-  let token = req.get('USER-KEY');
+  const token = req.get('USER-KEY');
   if (!token) {
     errorResponse(res, 401, 'AUT_02', 'Access Unauthorized', 'NoAuth');
   }
@@ -23,4 +23,4 @@ export const isLoggedIn = (req, res, next) => {
     req.customerId = decoded.id;
     return next();
   });
-}
+};

@@ -1,3 +1,20 @@
+DROP TABLE department;
+DROP TABLE category;
+DROP TABLE product;
+DROP TABLE product_category;
+DROP TABLE attribute;
+DROP TABLE attribute_value;
+DROP TABLE product_attribute;
+DROP TABLE shopping_cart;
+DROP TABLE orders;
+DROP TABLE order_detail;
+DROP TABLE shipping_region;
+DROP TABLE customer;
+DROP TABLE shipping;
+DROP TABLE tax;
+DROP TABLE audit;
+DROP TABLE review;
+
 -- Create tshirtshop tables
 
 -- Create department table

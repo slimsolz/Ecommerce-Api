@@ -11,9 +11,7 @@ import bcrypt from 'bcrypt';
  *
  * @returns {Promise<string>}
  */
-export const hashPassword = password => {
-  return bcrypt.hashSync(password, 10);
-};
+export const hashPassword = password => bcrypt.hashSync(password, 10);
 
 /**
  * @description - Verifies customer password matches password in database
@@ -24,6 +22,4 @@ export const hashPassword = password => {
  *
  * @returns {Promise<string>}
  */
-export const verifyPassword = (password, hashedPassword) => {
-  return bcrypt.compareSync(password, hashedPassword);
-};
+export const verifyPassword = (password, hashedPassword) => bcrypt.compareSync(password, hashedPassword);

@@ -5,6 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start:dev": "nodemon server/app.js --exec babel-node",
+    "db-migrate": "babel-node server/migrations/migratedb.js",
+    "pretest": "export NODE_ENV=test || SET \"NODE_ENV=test\" && npm run db-migrate",
     "test": "export NODE_ENV=test || set NODE_ENV=test && nyc --reporter=html --reporter=text mocha server/tests/ --exit --require babel-core/register"
   },
   "repository": {
@@ -18,9 +20,11 @@
   },
   "homepage": "https://github.com/slimsolz/Ecommerce-Api#readme",
   "dependencies": {
+    "@sendgrid/mail": "^6.4.0",
     "bcrypt": "^3.0.6",
     "body-parser": "^1.19.0",
     "dotenv": "^8.0.0",
+    "execsql": "0.0.3",
     "express": "^4.16.4",
     "jsonwebtoken": "^8.5.1",
     "lodash.isempty": "^4.4.0",
@@ -29,7 +33,9 @@
     "randomstring": "^1.1.5",
     "sequelize": "^5.8.6",
     "sequelize-cli": "^5.4.0",
-    "validator": "^10.11.0"
+    "swagger-ui-express": "^4.0.5",
+    "validator": "^10.11.0",
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -37,7 +43,11 @@
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "cross-env": "^5.2.0",
+    "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.17.3",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-react": "^7.13.0",
     "faker": "^4.1.0",
     "mocha": "^6.1.4",
     "mocha-lcov-reporter": "^1.3.0",

@@ -1,0 +1,1743 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: ECommerce Api
+  description: API for ECommerce
+  # My Contact Info
+  contact:
+    email: odumahs@gmail.com
+basePath: /api/v1
+
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: USER-KEY
+    in: header
+
+# tags are used for organizing operations
+tags:
+- name: customers
+  description: Everything about customers
+- name: products
+  description: Everything about products
+- name: departments
+  description: Everything about departments
+- name: categories
+  description: Everything about categories
+- name: attributes
+  description: Everything about attributes
+- name: taxes
+  description: Everything about taxes
+- name: shipping
+  description: Everything about shipping
+- name: shoppingcart
+  description: Everything about shoppingcart
+- name: orders
+  description: Everything about orders
+-name: stripe
+  description: Everything about Stripe Ingregation and Webhooks
+
+
+paths:
+  /customer:
+    put:
+      tags:
+      - customers
+      summary: Update a Customer
+      produces:
+      - application/json
+      security:
+      - Bearer: []
+      parameters:
+      - name: name
+        in: formData
+        description: Name of User
+        type: string
+        required: true
+      - name: email
+        in: formData
+        description: Email of Customer
+        type: string
+        required: true
+      - name: password
+        in: formData
+        description: Password of Customer
+        type: string
+      - name: day_phone
+        in: formData
+        description: Customer day phone
+        type: string
+      - name: eve_phone
+        in: formData
+        description: Customer eve phone
+        type: string
+      - name: mob_phone
+        in: formData
+        description: Customer mob phone
+        type: string
+      responses:
+        200:
+          description: A Customer Object
+          examples:
+            application/json:
+              customer:
+                customer_id: 1
+                name: John Doe
+                email: johnDoe@email.com
+                address_1:
+                address_2:
+                city:
+                region:
+                postal_code:
+                country:
+                shipping_region_id: 1
+                credit_card: xxxxxxxx5100
+                day_phone: +35132323232345
+                eve_phone: +35132323232345
+                mob_phone: +35132323232345
+        400:
+          description: Return a error object
+          examples:
+            application/json:
+              error:
+                status: 400
+                code: USR_02
+                message: the field is empty
+                field: example
+        401:
+          description: Unauthorized
+          examples:
+            application/json:
+              error:
+                status: 401
+                code: AUT_02
+                message: the apiKey is invalid
+                field: API-KEY
+    get:
+      tags:
+      - customers
+      summary: Get a customer by ID. The customer is getting by Token.
+      produces:
+      - application/json
+      security:
+      - Bearer: []
+      responses:
+        200:
+          description: A Customer Object
+          examples:
+            application/json:
+              customer:
+                customer_id: 1
+                name: John Doe
+                email: johnDoe@email.com
+                address_1:
+                address_2:
+                city:
+                region:
+                postal_code:
+                country:
+                shipping_region_id: 1
+                credit_card: xxxxxxxx5100
+                day_phone: +35132323232345
+                eve_phone: +35132323232345
+                mob_phone: +35132323232345
+        401:
+          description: Unauthorized
+          examples:
+            application/json:
+              error:
+                status: 401
+                code: AUT_02
+                message: the apiKey is invalid
+                field: API-KEY
+
+  /customers:
+    post:
+      tags:
+      - customers
+      summary: Register a Customer
+      description: register and Log a customer into the application
+      produces:
+      - application/json
+      parameters:
+      - name: name
+        in: formData
+        description: Name of  User
+        type: string
+        required: true
+      - name: email
+        in: formData
+        description: Email of Customer
+        type: string
+        required: true
+      - name: password
+        in: formData
+        description: Password of Customer
+        type: string
+        required: true
+      responses:
+        201:
+          description: Return a Object of Customer with auth credentials
+          examples:
+            application/json:
+              customer:
+                customer_id: 1
+                name: John Doe
+                email: johnDoe@email.com
+                address_1:
+                address_2:
+                city:
+                region:
+                postal_code:
+                country:
+                shipping_region_id: 1
+                credit_card: xxxxxxxx5100
+                day_phone: +35132323232345
+                eve_phone: +35132323232345
+                mob_phone: +35132323232345
+              accessToken: Bearer eyJhbGciOiJIUzI1NiIdssdjR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTIxMTk0MTE0LCJleHAiOjE1MjI0MDM3MTR9.OeN-Tut9xAg8wYUvC-RPLbTqIcGXH5zZamP_o5wTZrc
+              expires_in: '24h'
+        400:
+          description: Invalid Input
+          examples:
+            application/json:
+              error:
+                status: 400
+                code: USR_02
+                message: the field is empty
+                field: example
+        409:
+          description: Invalid email
+          examples:
+            application/json:
+              error:
+                status: 409
+                code: USR_02
+                message: The email already exists
+                field: email
+
+  /customers/login:
+    post:
+      tags:
+      - customers
+      summary: Customer Login
+      description: Log a customer into the application
+      produces:
+      - application/json
+      parameters:
+      - name: email
+        in: formData
+        description: Email of Customer
+        type: string
+        required: true
+      - name: password
+        in: formData
+        description: Password of Customer
+        type: string
+        required: true
+      responses:
+        200:
+          description: Return a Object of Customer with auth credentials
+          examples:
+            application/json:
+              customer:
+                customer_id: 1
+                name: John Doe
+                email: johnDoe@email.com
+                address_1:
+                address_2:
+                city:
+                region:
+                postal_code:
+                country:
+                shipping_region_id: 1
+                credit_card: xxxxxxxx5100
+                day_phone: +35132323232345
+                eve_phone: +35132323232345
+                mob_phone: +35132323232345
+              accessToken: Bearer eyJhbGciOiJIUzI1NiIdssdjR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTIxMTk0MTE0LCJleHAiOjE1MjI0MDM3MTR9.OeN-Tut9xAg8wYUvC-RPLbTqIcGXH5zZamP_o5wTZrc
+              expires_in: '24h'
+        400:
+          description: Invalid Input
+          examples:
+            application/json:
+              error:
+                status: 400
+                code: USR_02
+                message: the field is empty
+                field: example
+
+  /customers/address:
+    put:
+      tags:
+      - customers
+      summary: Update the address for a Customer
+      security:
+      - Bearer: []
+      produces:
+      - application/json
+      parameters:
+      - name: address_1
+        in: formData
+        description: Address 1
+        type: string
+        required: true
+      - name: address_2
+        in: formData
+        description: Address 2
+        type: string
+      - name: city
+        in: formData
+        description: City
+        type: string
+        required: true
+      - name: region
+        in: formData
+        description: Region
+        type: string
+        required: true
+      - name: postal_code
+        in: formData
+        description: Postal Code
+        type: string
+        required: true
+      - name: country
+        in: formData
+        description: Country
+        type: string
+        required: true
+      - name: shipping_region_id
+        in: formData
+        description: Shipping Region ID
+        type: string
+        required: true
+      responses:
+        200:
+          description: A Customer Object
+          examples:
+            application/json:
+              customer:
+                customer_id: 1
+                name: John Doe
+                email: johnDoe@email.com
+                address_1:
+                address_2:
+                city:
+                region:
+                postal_code:
+                country:
+                shipping_region_id: 1
+                credit_card: xxxxxxxx5100
+                day_phone: +35132323232345
+                eve_phone: +35132323232345
+                mob_phone: +35132323232345
+        400:
+          description: Return a error object
+          examples:
+            application/json:
+              error:
+                status: 400
+                code: USR_02
+                message: the field is empty
+                field: example
+        401:
+          description: Unauthorized
+          examples:
+            application/json:
+              error:
+                status: 401
+                code: AUT_02
+                message: the apiKey is invalid
+                field: API-KEY
+
+  /customers/credit_card:
+    put:
+      tags:
+      - customers
+      summary: Update the credit card for a Customer
+      security:
+      - Bearer: []
+      produces:
+      - application/json
+      parameters:
+      - name: credit_card
+        in: formData
+        description: Credit Card
+        type: string
+        required: true
+      responses:
+        200:
+          description: A Customer Object
+          examples:
+            application/json:
+              customer:
+                customer_id: 1
+                name: John Doe
+                email: johnDoe@email.com
+                address_1:
+                address_2:
+                city:
+                region:
+                postal_code:
+                country:
+                shipping_region_id: 1
+                credit_card: xxxxxxxx5100
+                day_phone: +35132323232345
+                eve_phone: +35132323232345
+                mob_phone: +35132323232345
+        400:
+          description: Return a error object
+          examples:
+            application/json:
+              error:
+                status: 400
+                code: USR_02
+                message: the field is empty
+                field: example
+        401:
+          description: Unauthorized
+          examples:
+            application/json:
+              error:
+                status: 401
+                code: AUT_02
+                message: the apiKey is invalid
+                field: API-KEY
+
+  /products:
+    get:
+      tags:
+      - products
+      summary: Get all products
+      produces:
+      - application/json
+      parameters:
+      - name: page
+        in: query
+        description: Inform the page. Starting with 1. Default: 1
+        type: integer
+      - name: limit
+        in: query
+        description: Limit per page Default: 20.
+        type: integer
+      - name: description_length
+        in: formData
+        description: Limit of the description, Default: 200.
+        type: integer
+      responses:
+        200:
+          description: Return the total of products and a list of Products in row.
+          examples:
+            application/json:
+              count: 40
+              rows:
+                product_id: 2
+                name: Chartres Cathedral
+                description: The Fur Merchants. Not all the beautiful stained glass in the great cathedrals depicts saints and angels! Lay aside your furs for the summer and wear this beautiful T-shirt!
+                price: 16.95
+                discounted_price: 15.95
+                thumbnail: chartres-cathedral-thumbnail.gif
+
+  /products/search:
+    get:
+      tags:
+      - products
+      summary: Get all products
+      produces:
+      - application/json
+      parameters:
+      - name: query_string
+        in: query
+        description: Query to search.
+        type: string
+        required: true
+      - name: all_words
+        in: query
+        description: All words or no. Default: on
+        enum: ["--", "on", "off"]
+        type: string
+      - name: page
+        in: query
+        description: Inform the page. Starting with 1. Default: 1
+        type: integer
+      - name: limit
+        in: query
+        description: Limit per page, Default: 20.
+        type: integer
+      - name: description_length
+        in: formData
+        description: Limit of the description, Default: 200.
+        type: integer
+      responses:
+        200:
+          description: Return the total of products and a list of Products in row.
+          examples:
+            application/json:
+              count: 40
+              rows:
+              type: array
+                product_id: 2
+                name: Chartres Cathedral
+                description: The Fur Merchants. Not all the beautiful stained glass in the great cathedrals depicts saints and angels! Lay aside your furs for the summer and wear this beautiful T-shirt!
+                price: 16.95
+                discounted_price: 15.95
+                thumbnail: chartres-cathedral-thumbnail.gif
+        400:
+          description: Return a error object
+          examples:
+            application/json:
+              error:
+                status: 400
+                code: USR_02
+                message: the field example is empty
+                field: example
+
+  /products/{product_id}:
+    get:
+      tags:
+      - products
+      summary: Product by ID
+      produces:
+      - application/json
+      parameters:
+      - name: product_id
+        in: path
+        description: Product ID
+        type: integer
+        required: true
+      responses:
+        200:
+          description: Return a Product Object
+          examples:
+            application/json:
+              count: 40
+              rows:
+                product_id: 2
+                name: Chartres Cathedral
+                description: The Fur Merchants. Not all the beautiful stained glass in the great cathedrals depicts saints and angels! Lay aside your furs for the summer and wear this beautiful T-shirt!
+                price: 16.95
+                discounted_price: 15.95
+                thumbnail: chartres-cathedral-thumbnail.gif
+        400:
+          description: Return a error object
+          examples:
+            application/json:
+              error:
+                status: 400
+                code: USR_02
+                message: the field example is empty
+                field: example
+
+  /products/{product_id}/reviews:
+    get:
+      tags:
+      - products
+      summary: Product by ID
+      produces:
+      - application/json
+      parameters:
+      - name: product_id
+        in: path
+        description: Product ID
+        type: integer
+        required: true
+      responses:
+        200:
+          description: Return a Product Object
+          examples:
+            application/json:
+              name: Chartres Cathedral
+              review: This is a good product
+              rating: 5
+              created_on: 2019-02-17 13:57:27
+        400:
+          description: Return a error object
+          examples:
+            application/json:
+              error:
+                status: 400
+                code: USR_02
+                message: the field example is empty
+                field: example
+    post:
+      tags:
+      - products
+      produces:
+      - application/json
+      parameters:
+      - name: product_id
+        in: path
+        description: Product Id
+        type: integer
+        required: true
+      - name: review
+        in: formData
+        description: Review text of Product
+        type: string
+        required: true
+      - name: rating
+        in: formData
+        description: Rating of Product
+        type: string
+        required: true
+      responses:
+        200:
+          description: No data
+        400:
+          description: Return an error object
+          examples:
+            application/json:
+              error:
+                status: 400
+                code: USR_02
+                message: the field is empty
+                field: example
+        401:
+          description: Unauthorized
+          examples:
+            application/json:
+              error:
+                status: 401
+                code: AUT_02
+                message: the apiKey is invalid
+                field: API-KEY
+
+  /products/inCategory/{category_id}:
+    get:
+      tags:
+      - products
+      summary: Get all products of categories
+      produces:
+      - application/json
+      parameters:
+      - name: category_id
+        in: path
+        description: Category ID
+        type: integer
+        required: true
+      - name: page
+        in: query
+        description: Inform the page. Starting with 1. Default: 1
+        type: integer
+      - name: limit
+        in: query
+        description: Limit per page, Default: 20.
+        type: integer
+      - name: description_length
+        in: formData
+        description: Limit of the description, Default: 200.
+        type: integer
+      responses:
+        200:
+          description: Return a list of Product Objects
+          examples:
+            application/json:
+              count: 40
+              rows:
+                product_id: 2
+                name: Chartres Cathedral
+                description: The Fur Merchants. Not all the beautiful stained glass in the great cathedrals depicts saints and angels! Lay aside your furs for the summer and wear this beautiful T-shirt!
+                price: 16.95
+                discounted_price: 15.95
+                thumbnail: chartres-cathedral-thumbnail.gif
+        400:
+          description: Return a error object
+          examples:
+            application/json:
+              error:
+                status: 400
+                code: USR_02
+                message: the field example is empty
+                field: example
+
+  /products/inDepartment/{department_id}:
+    get:
+      tags:
+      - products
+      summary: Get all products on Department
+      produces:
+      - application/json
+      parameters:
+      - name: department_id
+        in: path
+        description: Department ID
+        type: integer
+        required: true
+      - name: page
+        in: query
+        description: Inform the page. Starting with 1. Default: 1
+        type: integer
+      - name: limit
+        in: query
+        description: Limit per page, Default: 20.
+        type: integer
+      - name: description_length
+        in: formData
+        description: Limit of the description, Default: 200.
+        type: integer
+      responses:
+        200:
+          description: Return a list of Product Objects
+          examples:
+            application/json:
+              count: 40
+              rows:
+                product_id: 2
+                name: Chartres Cathedral
+                description: The Fur Merchants. Not all the beautiful stained glass in the great cathedrals depicts saints and angels! Lay aside your furs for the summer and wear this beautiful T-shirt!
+                price: 16.95
+                discounted_price: 15.95
+                thumbnail: chartres-cathedral-thumbnail.gif
+        400:
+          description: Return a error object
+          examples:
+            application/json:
+              error:
+                status: 400
+                code: USR_02
+                message: the field example is empty
+                field: example
+
+  /products/{product_id}/location:
+    get:
+      tags:
+      - products
+      summary: Get locations of Product
+      produces:
+      - application/json
+      parameters:
+      - name: product_id
+        in: path
+        description: Product ID
+        type: integer
+        required: true
+      responses:
+        200:
+          description: Return locations of products
+          examples:
+            application/json:
+              category_id: 1
+              category_name: French
+              department_id: 1
+              department_name: Regional
+        400:
+          description: Return a error object
+          examples:
+            application/json:
+              error:
+                status: 400
+                code: USR_02
+                message: the field example is empty
+                field: example
+
+  /products/{product_id}/details:
+    get:
+      tags:
+      - products
+      summary: Get details of Product
+      produces:
+      - application/json
+      parameters:
+      - name: product_id
+        in: path
+        description: Product ID
+        type: integer
+        required: true
+      responses:
+        200:
+          description: Return a Product Object
+          examples:
+            application/json:
+              product_id: 2
+              name: Chartres Cathedral
+              description: The Fur Merchants. Not all the beautiful stained glass in the great cathedrals depicts saints and angels! Lay aside your furs for the summer and wear this beautiful T-shirt!
+              price: 16.95
+              discounted_price: 1595
+              discounted_price: 15.95
+              image: chartres-cathedral.gif
+              image2: chartres-cathedral2.gif
+        400:
+          description: Return a error object
+          examples:
+            application/json:
+              error:
+                status: 400
+                code: USR_02
+                message: the field example is empty
+                field: example
+
+  /departments:
+    get:
+      tags:
+      - departments
+      summary: Get all departments
+      produces:
+      - application/json
+      responses:
+        200:
+          description: Return all departments
+          examples:
+            application/json:
+              department_id: 1
+              name: Regional
+              description: Proud of your country? Wear a T-shirt with a national symbol stamp!
+        400:
+          description: Return a error object
+          examples:
+            application/json:
+              error:
+                status: 400
+                code: USR_02
+                message: the field example is empty
+                field: example
+
+  /departments/{department_id}:
+    get:
+      tags:
+      - departments
+      summary: Get one department
+      produces:
+      - application/json
+      parameters:
+      - name: department_id
+        in: path
+        description: Department ID
+        type: integer
+        required: true
+      responses:
+        200:
+          description: Return department
+          examples:
+            application/json:
+              department_id: 1
+              name: Regional
+              description: Proud of your country? Wear a T-shirt with a national symbol stamp!
+        400:
+          description: Return a error object
+          examples:
+            application/json:
+              error:
+                status: 400
+                code: USR_02
+                message: the field example is empty
+                field: example
+
+  /taxes:
+    get:
+      tags:
+      - taxes
+      summary: Get all taxes
+      produces:
+      - application/json
+      responses:
+        200:
+          description: Return all taxes
+          examples:
+            application/json:
+              tax_id: 1
+              tax_type: Sales Tax at 8.5%
+              tax_percentage: 5.50
+        400:
+          description: Return a error object
+          examples:
+            application/json:
+              error:
+                status: 400
+                code: USR_02
+                message: the field example is empty
+                field: example
+
+  /taxes/{tax_id}:
+    get:
+      tags:
+      - taxes
+      summary: Get one tax
+      produces:
+      - application/json
+      parameters:
+      - name: tax_id
+        in: path
+        description: tax ID
+        type: integer
+        required: true
+      responses:
+        200:
+          description: Return tax
+          examples:
+            application/json:
+              tax_id: 1
+              tax_type: Sales Tax at 8.5%
+              tax_percentage: 5.50
+        400:
+          description: Return a error object
+          examples:
+            application/json:
+              error:
+                status: 400
+                code: USR_02
+                message: the field example is empty
+                field: example
+
+  /shipping/regions:
+    get:
+      tags:
+      - shipping
+      summary: Get all Shipping Regions
+      produces:
+      - application/json
+      responses:
+        200:
+          description: Return all shipping regions
+          examples:
+            application/json:
+              shipping_region_id: 1
+              shipping_region: Please Select
+        400:
+          description: Return a error object
+          examples:
+            application/json:
+              error:
+                status: 400
+                code: USR_02
+                message: the field example is empty
+                field: example
+
+  /shipping/regions/{shipping_region_id}:
+    get:
+      tags:
+      - shipping
+      summary: Get one shipping region
+      produces:
+      - application/json
+      parameters:
+      - name: shipping_region_id
+        in: path
+        description: Shipping Region ID
+        type: integer
+        required: true
+      responses:
+        200:
+          description: Return tax
+          examples:
+            application/json:
+              shipping_id: 1,
+              shipping_type: Next Day Delivery ($20),
+              shipping_cost: 20.00,
+              shipping_region_id: 2
+        400:
+          description: Return a error object
+          examples:
+            application/json:
+              error:
+                status: 400
+                code: USR_02
+                message: the field example is empty
+                field: example
+
+  /categories:
+    get:
+      tags:
+      - categories
+      summary: Get all categories
+      produces:
+      - application/json
+      parameters:
+      - name: order
+        in: query
+        description: Sorting a field. Allowed fields: 'category_id', 'name'.
+        type: string
+      - name: page
+        in: query
+        description: Inform the page. Starting with 1. Default: 1
+        type: integer
+      - name: limit
+        in: query
+        description: Limit per page, Default: 20.
+        type: integer
+      responses:
+        200:
+          description: Return a list with count (total categories) and the rows of Categories
+          examples:
+            application/json:
+              count: 40
+              rows:
+                product_id: 2
+                name: Chartres Cathedral
+                description: The Fur Merchants. Not all the beautiful stained glass in the great cathedrals depicts saints and angels! Lay aside your furs for the summer and wear this beautiful T-shirt!
+                price: 16.95
+                discounted_price: 15.95
+                thumbnail: chartres-cathedral-thumbnail.gif
+        400:
+          description: Return a error object
+          examples:
+            application/json:
+              error:
+                status: 400
+                code: USR_02
+                message: the field example is empty
+                field: example
+
+  /categories/{category_id}:
+    get:
+      tags:
+      - categories
+      summary: Get one category
+      produces:
+      - application/json
+      parameters:
+      - name: category_id
+        in: path
+        description: category ID
+        type: integer
+        required: true
+      responses:
+        200:
+          description: Return category
+          examples:
+            application/json:
+              category_id: 1,
+              name: French,
+              description: The French have always had an eye for beauty. One look at the T-shirts below and you'll see that same appreciation has been applied abundantly to their postage stamps. Below are some of our most beautiful and colorful T-shirts, so browse away! And don't forget to go all the way to the bottom - you don't want to miss any of them!,
+              department_id: 1
+        400:
+          description: Return a error object
+          examples:
+            application/json:
+              error:
+                status: 400
+                code: USR_02
+                message: the field example is empty
+                field: example
+
+  /categories/inDepartment/{department_id}:
+    get:
+      tags:
+      - categories
+      summary: Get all products on Department
+      produces:
+      - application/json
+      parameters:
+      - name: department_id
+        in: path
+        description: Department ID
+        type: integer
+        required: true
+      responses:
+        200:
+          description: Return a array of Object Category
+          examples:
+            application/json:
+              category_id: 1,
+              name: French,
+              description: The French have always had an eye for beauty. One look at the T-shirts below and you'll see that same appreciation has been applied abundantly to their postage stamps. Below are some of our most beautiful and colorful T-shirts, so browse away! And don't forget to go all the way to the bottom - you don't want to miss any of them!,
+              department_id: 1
+        400:
+          description: Return a error object
+          examples:
+            application/json:
+              error:
+                status: 400
+                code: USR_02
+                message: the field example is empty
+                field: example
+
+  /categories/inProduct/{product_id}:
+    get:
+      tags:
+      - categories
+      summary: Get Categories of a product
+      description: Return a list of categories from a product ID
+      produces:
+      - application/json
+      parameters:
+      - name: product_id
+        in: path
+        description: Product ID
+        type: integer
+        required: true
+      responses:
+        200:
+          description: Return a array of Category Objects
+          examples:
+            application/json:
+              category_id: 1,
+              department_id: 1,
+              name: French
+        400:
+          description: Return a error object
+          examples:
+            application/json:
+              error:
+                status: 400
+                code: USR_02
+                message: the field example is empty
+                field: example
+
+  /attributes:
+    get:
+      tags:
+      - attributes
+      summary: Get all attributes
+      produces:
+      - application/json
+      responses:
+        200:
+          description: Return a list with count (total attributes) and the rows of attributes
+          examples:
+            application/json:
+              attribute_id: 1,
+              name: Size
+        400:
+          description: Return a error object
+          examples:
+            application/json:
+              error:
+                status: 400
+                code: USR_02
+                message: the field example is empty
+                field: example
+
+  /attributes/{attribute_id}:
+    get:
+      tags:
+      - attributes
+      summary: Get one category
+      produces:
+      - application/json
+      parameters:
+      - name: attribute_id
+        in: path
+        description: Attribute ID
+        type: integer
+        required: true
+      responses:
+        200:
+          description: Return a Object of Attribute
+          examples:
+            application/json:
+              attribute_id: 1,
+              name: Size
+        400:
+          description: Return a error object
+          examples:
+            application/json:
+              error:
+                status: 400
+                code: USR_02
+                message: the field example is empty
+                field: example
+
+  /attributes/values/{attribute_id}:
+    get:
+      tags:
+      - attributes
+      summary: Get values of attribute
+      produces:
+      - application/json
+      parameters:
+      - name: attribute_id
+        in: path
+        description: Attribute ID
+        type: integer
+        required: true
+      responses:
+        200:
+          description: Return a Object of Attribute values
+          examples:
+            application/json:
+              attribute_value_id: 1,
+              value: S
+        400:
+          description: Return a error object
+          examples:
+            application/json:
+              error:
+                status: 400
+                code: USR_02
+                message: the field example is empty
+                field: example
+
+  /attributes/inProduct/{product_id}:
+    get:
+      tags:
+      - attributes
+      summary: Get all Attributes on Product
+      produces:
+      - application/json
+      parameters:
+      - name: product_id
+        in: path
+        description: Product ID
+        type: integer
+        required: true
+      responses:
+        200:
+          description: Return a array of Values of Attribute Objects
+          examples:
+            application/json:
+              attribute_name: Color,
+              attribute_value_id: 6,
+              attribute_value: White
+        400:
+          description: Return a error object
+          examples:
+            application/json:
+              error:
+                status: 400
+                code: USR_02
+                message: the field example is empty
+                field: example
+
+  /orders:
+    post:
+      tags:
+      - orders
+      summary: Create an ORder
+      produces:
+      - application/json
+      security:
+      - Bearer: []
+      parameters:
+      - name: cart_id
+        in: formData
+        description: Cart ID
+        type: string
+        required: true
+      - name: shipping_id
+        in: formData
+        description: shipping ID
+        type: integer
+        required: true
+      - name: tax_id
+        in: formData
+        description: Tax ID
+        type: integer
+        required: true
+      responses:
+        201:
+          description: Return a Order ID
+          examples:
+            application/json:
+              orderId: 1
+        400:
+          description: Invalid Input
+          examples:
+            application/json:
+              error:
+                status: 400
+                code: USR_02
+                message: the field is empty
+                field: example
+        401:
+          description: Unauthorized
+          examples:
+            application/json:
+              error:
+                status: 401
+                code: AUT_02
+                message: the apiKey is invalid
+                field: API-KEY
+
+  /orders/{order_id}:
+    get:
+      tags:
+      - orders
+      summary: Get Info about Order
+      produces:
+      - application/json
+      security:
+      - Bearer: []
+      parameters:
+      - name: order_id
+        in: path
+        description: order ID
+        type: string
+        required: true
+      responses:
+        200:
+          description: Return a Order ID
+          examples:
+            application/json:
+              order_id: 1
+              product_id: 1
+              attributes: LG, Red
+              product_name: Arc d'Triomphe
+              quantity: 1
+              unit_cost: 14.99
+              subtotal: 14.99
+        400:
+          description: Invalid Input
+          examples:
+            application/json:
+              error:
+                status: 400
+                code: USR_02
+                message: the field is empty
+                field: example
+        401:
+          description: Unauthorized
+          examples:
+            application/json:
+              error:
+                status: 401
+                code: AUT_02
+                message: the apiKey is invalid
+                field: API-KEY
+
+  /orders/inCustomer:
+    get:
+      tags:
+      - orders
+      summary: Get Orders by Customer
+      produces:
+      - application/json
+      security:
+      - Bearer: []
+      responses:
+        200:
+          description: Return a array of Orders
+        400:
+          description: Invalid Input
+          examples:
+            application/json:
+              error:
+                status: 400
+                code: USR_02
+                message: the field is empty
+                field: example
+        401:
+          description: Unauthorized
+          examples:
+            application/json:
+              error:
+                status: 401
+                code: AUT_02
+                message: the apiKey is invalid
+                field: API-KEY
+
+  /orders/shortDetails/{order_id}:
+    get:
+      tags:
+      - orders
+      summary: Get Info about Order
+      produces:
+      - application/json
+      security:
+      - Bearer: []
+      parameters:
+      - name: order_id
+        in: path
+        description: order ID
+        type: string
+        required: true
+      responses:
+        200:
+          description: Return a Order ID
+          examples:
+            application/json:
+              order_id: 1
+              total_amount: 1
+              created_on:
+              shipped_on:
+              status: paid
+              name: Test
+        400:
+          description: Invalid Input
+          examples:
+            application/json:
+              error:
+                status: 400
+                code: USR_02
+                message: the field is empty
+                field: example
+        401:
+          description: Unauthorized
+          examples:
+            application/json:
+              error:
+                status: 401
+                code: AUT_02
+                message: the apiKey is invalid
+                field: API-KEY
+
+  /shoppingcart/generateUniqueId:
+    get:
+      tags:
+      - shoppingcart
+      summary: Get all attributes
+      produces:
+      - application/json
+      responses:
+        200:
+          description: Json Object with unique Cart ID
+          examples:
+            application/json:
+              cart_id: mu1js99v9n1
+        400:
+          description: Return a error object
+          examples:
+            application/json:
+              error:
+                status: 400
+                code: USR_02
+                message: the field example is empty
+                field: example
+
+  /shoppingcart/add:
+    post:
+      tags:
+      - shoppingcart
+      summary: Add a Product in the cart
+      description: put a product in the cart
+      produces:
+      - application/json
+      parameters:
+      - name: cart_id
+        in: formData
+        description: Cart ID
+        type: string
+        required: true
+      - name: product_id
+        in: formData
+        description: Product ID
+        type: integer
+        required: true
+      - name: attributes
+        in: formData
+        description: Attributes of Product
+        type: string
+        required: true
+      responses:
+        201:
+          description: Return a array of products in the cart
+          examples:
+            application/json:
+              item_id: 2
+              name: Arc d'Triomphe
+              attributes: LG, red
+              product_id: 2
+              price: 14.99
+              quantity: 1
+              image: arc-d-triomphe.gif
+              subtotal: 14.99
+        400:
+          description: Return a error object
+          examples:
+            application/json:
+              error:
+                status: 400
+                code: USR_02
+                message: the field is empty
+                field: example
+
+  /shoppingcart/{cart_id}:
+    get:
+      tags:
+      - shoppingcart
+      summary: Get one category
+      produces:
+      - application/json
+      parameters:
+      - name: cart_id
+        in: path
+        description: Cart ID
+        type: string
+        required: true
+      responses:
+        200:
+          description: Return a array of products in the cart.
+          examples:
+            application/json:
+              item_id: 2,
+              name: Arc d'Triomphe,
+              attributes: LG, red,
+              product_id: 2,
+              price: 14.99,
+              quantity: 1,
+              image: arc-d-triomphe.gif,
+              subtotal: 14.99
+        400:
+          description: Return a error object
+          examples:
+            application/json:
+              error:
+                status: 400
+                code: USR_02
+                message: the field example is empty
+                field: example
+
+  /shoppingcart/moveToCart/{item_id}:
+    get:
+      tags:
+      - shoppingcart
+      summary: Move a product to cart
+      produces:
+      - application/json
+      parameters:
+      - name: item_id
+        in: path
+        description: Item ID
+        type: integer
+        required: true
+      responses:
+        200:
+          description: No data
+        400:
+          description: Return a error object
+          examples:
+            application/json:
+              error:
+                status: 400
+                code: USR_02
+                message: the field example is empty
+                field: example
+
+  /shoppingcart/empty/{cart_id}:
+    delete:
+      tags:
+      - shoppingcart
+      summary: Empty cart
+      produces:
+      - application/json
+      parameters:
+      - name: cart_id
+        in: path
+        description: Cart ID
+        type: string
+        required: true
+      responses:
+        200:
+          description: Return a empty Array
+        400:
+          description: Return a error object
+          examples:
+            application/json:
+              error:
+                status: 400
+                code: USR_02
+                message: the field example is empty
+                field: example
+
+  /shoppingcart/update/{item_id}:
+    put:
+      tags:
+      - shoppingcart
+      summary: Update the cart by item
+      produces:
+      - application/json
+      parameters:
+      - name: item_id
+        in: formData
+        description: Item ID
+        type: integer
+        required: true
+      - name: quantity
+        in: formData
+        description: Item Quantity
+        type: integer
+        required: true
+      responses:
+        200:
+          description: Return a array of products in the cart
+          examples:
+            application/json:
+              item_id: 2
+              name: Arc d'Triomphe
+              attributes: LG, red
+              product_id: 2
+              price: 14.99
+              quantity: 1
+              subtotal: 14.99
+        400:
+          description: Return a error object
+          examples:
+            application/json:
+              error:
+                status: 400
+                code: USR_02
+                message: the field is empty
+                field: example
+
+  /shoppingcart/totalAmount/{cart_id}:
+    get:
+      tags:
+      - shoppingcart
+      summary: Return a total amount from a cart
+      produces:
+      - application/json
+      parameters:
+      - name: cart_id
+        in: path
+        description: Cart ID
+        type: string
+        required: true
+      responses:
+        200:
+          description: Return the Total Amount
+          examples:
+            total_amount: 5
+        400:
+          description: Return a error object
+          examples:
+            application/json:
+              error:
+                status: 400
+                code: USR_02
+                message: the field example is empty
+                field: example
+
+  /shoppingcart/saveForLater/{item_id}:
+    get:
+      tags:
+      - shoppingcart
+      summary: Save a Product for later
+      produces:
+      - application/json
+      parameters:
+      - name: item_id
+        in: path
+        description: Item ID
+        type: integer
+        required: true
+      responses:
+        200:
+          description: No data
+        400:
+          description: Return a error object
+          examples:
+            application/json:
+              error:
+                status: 400
+                code: USR_02
+                message: the field example is empty
+                field: example
+
+  /shoppingcart/getSaved/{cart_id}:
+    get:
+      tags:
+      - shoppingcart
+      summary: Get Products saved for later
+      produces:
+      - application/json
+      parameters:
+      - name: cart_id
+        in: path
+        description: Cart ID
+        type: string
+        required: true
+      responses:
+        200:
+          description: Return a object of item salved.
+          examples:
+            item_id: 1,
+            name: Tshit,
+            attributes: LG, red,
+            price: 15.90
+        400:
+          description: Return a error object
+          examples:
+            application/json:
+              error:
+                status: 400
+                code: USR_02
+                message: the field example is empty
+                field: example
+
+  /shoppingcart/removeProduct/{item_id}:
+    delete:
+      tags:
+      - shoppingcart
+      summary: Save a Product for later
+      produces:
+      - application/json
+      parameters:
+      - name: item_id
+        in: path
+        description: Item ID
+        type: integer
+        required: true
+      responses:
+        200:
+          description: No data
+        400:
+          description: Return a error object
+          examples:
+            application/json:
+              error:
+                status: 400
+                code: USR_02
+                message: the field example is empty
+                field: example
+
+  /stripe/charge:
+    post:
+      tags:
+      - stripe
+      summary: This method receive a front-end payment and create a chage.
+      description: You can send a cart informations and payment token (https://stripe.com/docs/api/tokens).
+      produces:
+      - application/json
+      parameters:
+      - name: stripeToken
+        in: formData
+        description: The API token, you can use this example to get it: https://stripe.com/docs/stripe-js/elements/quickstart
+        type: string
+        required: true
+      - name: order_id
+        in: formData
+        description: The order ID recorded before (Check the Order Documentation)
+        type: integer
+        required: true
+      - name: description
+        in: formData
+        description: Description to order
+        type: string
+        required: true
+      - name: amount
+        in: formData
+        description: Only numbers lik: 999
+        type: integer
+        required: true
+      - name: currency
+        in: formData
+        description: Check here the options: https://stripe.com/docs/currencies, the default
+                      Default vale USD
+        default: USD
+        type: string
+        required: true
+      responses:
+        201:
+          description: Object from Stripe
+        400:
+          description: Return a error object
+          examples:
+            application/json:
+              error:
+                status: 400
+                code: USR_02
+                message: the field is empty
+                field: example
+
+  /stripe/webhooks:
+    post:
+      tags:
+      - stripe
+      summary: Endpoint that provide a synchronization
+      description: You need put this endpoint in the stripe webhooks (https://dashboard.stripe.com/account/webhooks), so get there the end-point secrete key.
+      produces:
+      - application/json
+      responses:
+        200:
+          description: Object from Stripe
+          examples:
+            application/json:
+              received: true
+        400:
+          description: Return a error object
+          examples:
+            application/json:
+              error:
+                status: 400
+                code: USR_02
+                message: the field is empty
+                field: example

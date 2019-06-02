@@ -24,7 +24,7 @@ describe('GET /categories', () => {
 describe('GET /categories/category_id', () => {
   it('should get a categories details', (done) => {
     chai.request(app)
-      .get(`/api/v1/categories/1`)
+      .get('/api/v1/categories/1')
       .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res.body).to.be.an('object');
@@ -38,7 +38,7 @@ describe('GET /categories/category_id', () => {
 
   it('should fail if department doesn\'t exist', (done) => {
     chai.request(app)
-      .get(`/api/v1/categories/5000`)
+      .get('/api/v1/categories/5000')
       .end((err, res) => {
         expect(res).to.have.status(404);
         expect(res.body.error.code).to.equal('CAT_01');
@@ -52,7 +52,7 @@ describe('GET /categories/category_id', () => {
 describe('GET /categories/inProduct/product_id', () => {
   it('should get a category inProduct details', (done) => {
     chai.request(app)
-      .get(`/api/v1/categories/inProduct/1`)
+      .get('/api/v1/categories/inProduct/1')
       .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res.body).to.be.an('array');
@@ -65,7 +65,7 @@ describe('GET /categories/inProduct/product_id', () => {
 
   it('should fail if product doesn\'t exist', (done) => {
     chai.request(app)
-    .get(`/api/v1/categories/inProduct/50000`)
+      .get('/api/v1/categories/inProduct/50000')
       .end((err, res) => {
         expect(res).to.have.status(404);
         expect(res.body.error.code).to.equal('PRD_02');
@@ -79,7 +79,7 @@ describe('GET /categories/inProduct/product_id', () => {
 describe('GET /categories/inDepartment/product_id', () => {
   it('should get a category inDepartment details', (done) => {
     chai.request(app)
-      .get(`/api/v1/categories/inDepartment/1`)
+      .get('/api/v1/categories/inDepartment/1')
       .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res.body).to.be.an('array');
@@ -93,7 +93,7 @@ describe('GET /categories/inDepartment/product_id', () => {
 
   it('should fail if product doesn\'t exist', (done) => {
     chai.request(app)
-    .get(`/api/v1/categories/inDepartment/50000`)
+      .get('/api/v1/categories/inDepartment/50000')
       .end((err, res) => {
         expect(res).to.have.status(404);
         expect(res.body.error.code).to.equal('DEP_02');

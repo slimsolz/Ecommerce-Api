@@ -24,7 +24,7 @@ describe('GET /departments', () => {
 describe('GET /departments/department_id', () => {
   it('should get a department details', (done) => {
     chai.request(app)
-      .get(`/api/v1/departments/1`)
+      .get('/api/v1/departments/1')
       .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res.body).to.be.an('object');
@@ -37,7 +37,7 @@ describe('GET /departments/department_id', () => {
 
   it('should fail if department doesn\'t exist', (done) => {
     chai.request(app)
-      .get(`/api/v1/departments/5000`)
+      .get('/api/v1/departments/5000')
       .end((err, res) => {
         expect(res).to.have.status(404);
         expect(res.body.error.code).to.equal('DEP_02');

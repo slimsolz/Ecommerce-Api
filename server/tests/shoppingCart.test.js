@@ -11,16 +11,16 @@ let item_id;
 
 before((done) => {
   chai.request(app)
-  .get('/api/v1/shoppingcart/generateUniqueId')
-  .end((err, res) => {
-    cart_id = res.body.cart_id
-    done();
-  });
+    .get('/api/v1/shoppingcart/generateUniqueId')
+    .end((err, res) => {
+      cart_id = res.body.cart_id;
+      done();
+    });
 });
 
 before((done) => {
   chai.request(app)
-    .post(`/api/v1/shoppingcart/add`)
+    .post('/api/v1/shoppingcart/add')
     .send({
       cartId: cart_id,
       product_id: 1,
@@ -32,14 +32,14 @@ before((done) => {
       expect(res).to.have.status(201);
       done();
     });
-})
+});
 
 describe('GET /shoppingcart', () => {
   it('should get all shopping_cart', (done) => {
     chai.request(app)
       .get('/api/v1/shoppingcart/generateUniqueId')
       .end((err, res) => {
-        cart_id2 = res.body.cart_id
+        cart_id2 = res.body.cart_id;
         expect(res).to.have.status(200);
         expect(res.body).to.be.an('object');
         expect(res.body).to.have.property('cart_id');
@@ -51,7 +51,7 @@ describe('GET /shoppingcart', () => {
 describe('POST /shoppingcart/add', () => {
   it('should add a product to shopping cart', (done) => {
     chai.request(app)
-      .post(`/api/v1/shoppingcart/add`)
+      .post('/api/v1/shoppingcart/add')
       .send({
         cartId: cart_id2,
         product_id: 1,
@@ -66,25 +66,25 @@ describe('POST /shoppingcart/add', () => {
 
   it('should fail if product doesn\'t exist', (done) => {
     chai.request(app)
-    .post(`/api/v1/shoppingcart/add`)
-    .send({
-      cartId: cart_id2,
-      product_id: 5000,
-      attributes: 'S, Blue',
-      quantity: 1
-    })
-    .end((err, res) => {
-      expect(res).to.have.status(404);
-      expect(res.body.error.code).to.equal('PRD_2');
-      expect(res.body.error.field).to.equal('product_id');
-      expect(res.body.error.message).to.equal('Product not found');
-      done();
-    });
+      .post('/api/v1/shoppingcart/add')
+      .send({
+        cartId: cart_id2,
+        product_id: 5000,
+        attributes: 'S, Blue',
+        quantity: 1
+      })
+      .end((err, res) => {
+        expect(res).to.have.status(404);
+        expect(res.body.error.code).to.equal('PRD_2');
+        expect(res.body.error.field).to.equal('product_id');
+        expect(res.body.error.message).to.equal('Product not found');
+        done();
+      });
   });
 
   it('should add a product to shopping cart', (done) => {
     chai.request(app)
-      .post(`/api/v1/shoppingcart/add`)
+      .post('/api/v1/shoppingcart/add')
       .send({
         cartId: cart_id2,
         product_id: 2,
@@ -113,7 +113,7 @@ describe('GET /shoppingcart/{cart_id}', () => {
 
   it('should fail to get shopping_cart', (done) => {
     chai.request(app)
-      .get(`/api/v1/shoppingcart/aulfh3naow3sfludun`)
+      .get('/api/v1/shoppingcart/aulfh3naow3sfludun')
       .end((err, res) => {
         expect(res).to.have.status(404);
         expect(res.body.error.code).to.equal('CRT_02');
@@ -137,7 +137,7 @@ describe('PUT /shoppingcart/update/{item_id}', () => {
 
   it('should fail to update shopping_cart', (done) => {
     chai.request(app)
-      .put(`/api/v1/shoppingcart/update/900000000`)
+      .put('/api/v1/shoppingcart/update/900000000')
       .send({ quantity: 5 })
       .end((err, res) => {
         expect(res).to.have.status(404);
@@ -161,7 +161,7 @@ describe('DELETE /shoppingcart/empty/{item_id}', () => {
 
   it('should fail to empty cart', (done) => {
     chai.request(app)
-      .delete(`/api/v1/shoppingcart/empty/aulfh3naow3sfludun`)
+      .delete('/api/v1/shoppingcart/empty/aulfh3naow3sfludun')
       .end((err, res) => {
         expect(res).to.have.status(404);
         expect(res.body.error.code).to.equal('CRT_02');
@@ -184,7 +184,7 @@ describe('GET /shoppingcart/moveToCart/{item_id}', () => {
 
   it('should fail to move to cart', (done) => {
     chai.request(app)
-      .get(`/api/v1/shoppingcart/moveToCart/90000000`)
+      .get('/api/v1/shoppingcart/moveToCart/90000000')
       .end((err, res) => {
         expect(res).to.have.status(404);
         expect(res.body.error.code).to.equal('ITM_02');
@@ -210,7 +210,7 @@ describe('GET /shoppingcart/totalAmount/{cart_id}', () => {
 
   it('should fail if shopping_cart id is not available', (done) => {
     chai.request(app)
-      .get(`/api/v1/shoppingcart/totalAmount/aulfh3naow3sfludun`)
+      .get('/api/v1/shoppingcart/totalAmount/aulfh3naow3sfludun')
       .end((err, res) => {
         expect(res).to.have.status(404);
         expect(res.body.error.code).to.equal('CRT_02');
@@ -233,7 +233,7 @@ describe('GET /shoppingcart/saveForLater/{item_id}', () => {
 
   it('should fail to save for later shopping_cart', (done) => {
     chai.request(app)
-      .get(`/api/v1/shoppingcart/saveForLater/9000000`)
+      .get('/api/v1/shoppingcart/saveForLater/9000000')
       .end((err, res) => {
         expect(res).to.have.status(404);
         expect(res.body.error.code).to.equal('ITM_02');
@@ -257,7 +257,7 @@ describe('GET /shoppingcart/getSaved/{cart_id}', () => {
 
   it('should fail to get saved', (done) => {
     chai.request(app)
-      .get(`/api/v1/shoppingcart/getSaved/aulfh3naow3sfludun`)
+      .get('/api/v1/shoppingcart/getSaved/aulfh3naow3sfludun')
       .end((err, res) => {
         expect(res).to.have.status(404);
         expect(res.body.error.code).to.equal('CRT_02');
@@ -280,7 +280,7 @@ describe('GET /shoppingcart/removeProduct/{item_id}', () => {
 
   it('should fail to remove product', (done) => {
     chai.request(app)
-      .delete(`/api/v1/shoppingcart/removeProduct/90000000`)
+      .delete('/api/v1/shoppingcart/removeProduct/90000000')
       .end((err, res) => {
         expect(res).to.have.status(404);
         expect(res.body.error.code).to.equal('ITM_02');

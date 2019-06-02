@@ -23,7 +23,7 @@ describe('GET /shipping/regions', () => {
 describe('GET /shipping/regions/shipping_region_id', () => {
   it('should get a list of shipping regions', (done) => {
     chai.request(app)
-      .get(`/api/v1/shipping/regions/2`)
+      .get('/api/v1/shipping/regions/2')
       .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res.body).to.be.an('array');
@@ -37,7 +37,7 @@ describe('GET /shipping/regions/shipping_region_id', () => {
 
   it('should fail if shipping region doesn\'t exist', (done) => {
     chai.request(app)
-      .get(`/api/v1/shipping/regions/5000`)
+      .get('/api/v1/shipping/regions/5000')
       .end((err, res) => {
         expect(res).to.have.status(404);
         expect(res.body.error.code).to.equal('SHR_01');

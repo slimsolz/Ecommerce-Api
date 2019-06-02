@@ -67,7 +67,7 @@ describe('GET /products', () => {
 
   it('should fail if product doesn\'t exist', (done) => {
     chai.request(app)
-      .get(`/api/v1/products/5000`)
+      .get('/api/v1/products/5000')
       .end((err, res) => {
         expect(res).to.have.status(404);
         expect(res.body.error.code).to.equal('PRD_2');
@@ -97,7 +97,7 @@ describe('GET /products/id/details', () => {
 
   it('should fail if product doesn\'t exist', (done) => {
     chai.request(app)
-      .get(`/api/v1/products/5000/details`)
+      .get('/api/v1/products/5000/details')
       .end((err, res) => {
         expect(res).to.have.status(404);
         expect(res.body.error.code).to.equal('PRD_2');
@@ -124,7 +124,7 @@ describe('GET /products/id/locations', () => {
 
   it('should fail if product doesn\'t exist', (done) => {
     chai.request(app)
-      .get(`/api/v1/products/5000/locations`)
+      .get('/api/v1/products/5000/locations')
       .end((err, res) => {
         expect(res).to.have.status(404);
         expect(res.body.error.code).to.equal('PRD_2');
@@ -138,7 +138,7 @@ describe('GET /products/id/locations', () => {
 describe('GET /products/id/reviews', () => {
   it('should get a product reviews', (done) => {
     chai.request(app)
-      .get(`/api/v1/products/5/reviews`)
+      .get('/api/v1/products/5/reviews')
       .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res.body.message).to.eql('No review at the moment');
@@ -175,7 +175,7 @@ describe('GET /products/id/reviews', () => {
 
   it('should fail if product doesn\'t exist', (done) => {
     chai.request(app)
-      .get(`/api/v1/products/5000/reviews`)
+      .get('/api/v1/products/5000/reviews')
       .end((err, res) => {
         expect(res).to.have.status(404);
         expect(res.body.error.code).to.equal('PRD_2');
@@ -187,7 +187,7 @@ describe('GET /products/id/reviews', () => {
 
   it('should fail if product doesn\'t exist', (done) => {
     chai.request(app)
-      .post(`/api/v1/products/5000/reviews`)
+      .post('/api/v1/products/5000/reviews')
       .set('USER-KEY', token)
       .send({
         review: 'awesome',
@@ -206,7 +206,7 @@ describe('GET /products/id/reviews', () => {
 describe('GET /products/inCategory/:categoryId', () => {
   it('should get a product in a category', (done) => {
     chai.request(app)
-    .get(`/api/v1/products/inCategory/1`)
+      .get('/api/v1/products/inCategory/1')
       .end((err, res) => {
         expect(res).to.have.status(206);
         expect(res.body).to.have.property('count');
@@ -217,7 +217,7 @@ describe('GET /products/inCategory/:categoryId', () => {
 
   it('should get a product in a category', (done) => {
     chai.request(app)
-    .get(`/api/v1/products/inCategory/1?page=2&limit=5&description_length=16`)
+      .get('/api/v1/products/inCategory/1?page=2&limit=5&description_length=16')
       .end((err, res) => {
         expect(res).to.have.status(206);
         expect(res.body).to.have.property('count');
@@ -228,7 +228,7 @@ describe('GET /products/inCategory/:categoryId', () => {
 
   it('should fail if product doesn\'t exist', (done) => {
     chai.request(app)
-    .get('/api/v1/products/inCategory/5000')
+      .get('/api/v1/products/inCategory/5000')
       .end((err, res) => {
         expect(res).to.have.status(404);
         expect(res.body.error.code).to.equal('CAT_1');
@@ -242,7 +242,7 @@ describe('GET /products/inCategory/:categoryId', () => {
 describe('GET /products/inDepartment/:departmentId', () => {
   it('should get a product in a department', (done) => {
     chai.request(app)
-    .get(`/api/v1/products/inDepartment/1`)
+      .get('/api/v1/products/inDepartment/1')
       .end((err, res) => {
         expect(res).to.have.status(206);
         expect(res.body).to.have.property('count');
@@ -253,7 +253,7 @@ describe('GET /products/inDepartment/:departmentId', () => {
 
   it('should get a product in a department', (done) => {
     chai.request(app)
-    .get(`/api/v1/products/inDepartment/1?page=2&limit=5&description_length=16`)
+      .get('/api/v1/products/inDepartment/1?page=2&limit=5&description_length=16')
       .end((err, res) => {
         expect(res).to.have.status(206);
         expect(res.body).to.have.property('count');
@@ -264,7 +264,7 @@ describe('GET /products/inDepartment/:departmentId', () => {
 
   it('should fail if product doesn\'t exist', (done) => {
     chai.request(app)
-    .get('/api/v1/products/inDepartment/5000')
+      .get('/api/v1/products/inDepartment/5000')
       .end((err, res) => {
         expect(res).to.have.status(404);
         expect(res.body.error.code).to.equal('DPT_1');
@@ -289,7 +289,7 @@ describe('GET /products/search', () => {
 
   it('should fail if query_string in not provided', (done) => {
     chai.request(app)
-    .get('/api/v1/products/search')
+      .get('/api/v1/products/search')
       .end((err, res) => {
         expect(res).to.have.status(400);
         expect(res.body.error.code).to.equal('QRY_01');
@@ -301,7 +301,7 @@ describe('GET /products/search', () => {
 
   it('should get some products/search', (done) => {
     chai.request(app)
-      .get('/api/v1/products/search?query_string=fish&all_words=on&description_length=30&limit=10&page=2')
+      .get('/api/v1/products/search?query_string=Ifni fish&all_words=on&description_length=10&limit=10&page=2')
       .end((err, res) => {
         expect(res).to.have.status(206);
         expect(res.body).to.have.property('count');

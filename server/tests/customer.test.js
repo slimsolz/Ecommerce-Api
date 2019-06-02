@@ -28,7 +28,7 @@ const customer2 = {
   dayPhone: '',
   evePhone: '',
   mobPhone: '',
-}
+};
 
 let token = '';
 

@@ -24,7 +24,7 @@ describe('GET /taxes', () => {
 describe('GET /taxes/tax_id', () => {
   it('should get a taxes details', (done) => {
     chai.request(app)
-      .get(`/api/v1/taxes/1`)
+      .get('/api/v1/taxes/1')
       .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res.body).to.be.an('object');
@@ -37,7 +37,7 @@ describe('GET /taxes/tax_id', () => {
 
   it('should fail if tax doesn\'t exist', (done) => {
     chai.request(app)
-      .get(`/api/v1/taxes/5000`)
+      .get('/api/v1/taxes/5000')
       .end((err, res) => {
         expect(res).to.have.status(404);
         expect(res.body.error.code).to.equal('TAX_01');

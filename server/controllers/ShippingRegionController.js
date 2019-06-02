@@ -20,7 +20,6 @@ export default class ShippingRegionController {
   static getAllShippingRegion(req, res) {
     Model.sequelize.query('CALL customer_get_shipping_regions();')
       .then(regionList => res.json(regionList));
-
   }
 
 
@@ -37,13 +36,13 @@ export default class ShippingRegionController {
    */
   static getOneShoppingRegion(req, res) {
     const { shipping_region_id } = req.params;
-    ShippingRegion.findOne({ where: { shippingRegionId: shipping_region_id }})
-      .then(shippingRegion => {
-        if(!shippingRegion) {
+    ShippingRegion.findOne({ where: { shippingRegionId: shipping_region_id } })
+      .then((shippingRegion) => {
+        if (!shippingRegion) {
           return errorResponse(res, 404, 'SHR_01', 'Don\'t exist shipping region with this ID', 'shipping_region_id');
         }
 
-        Shipping.findAll({ where: { shippingRegionId: shipping_region_id}})
+        Shipping.findAll({ where: { shippingRegionId: shipping_region_id } })
           .then(shippingList => res.json(shippingList));
       });
   }

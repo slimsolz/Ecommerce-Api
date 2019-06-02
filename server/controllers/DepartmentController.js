@@ -1,5 +1,6 @@
 import Model from '../models';
 import { errorResponse } from '../helpers/responseHelper';
+
 const { Department } = Model;
 
 require('dotenv').config();
@@ -34,9 +35,9 @@ export default class DepartmentController {
    */
   static getOneDepartment(req, res) {
     const { department_id } = req.params;
-    Department.findOne({ where: { departmentId: department_id }})
-      .then(department => {
-        if(!department) {
+    Department.findOne({ where: { departmentId: department_id } })
+      .then((department) => {
+        if (!department) {
           return errorResponse(res, 404, 'DEP_02', 'Don\'t exist department with this ID', 'department_id');
         }
 

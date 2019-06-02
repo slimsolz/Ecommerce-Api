@@ -20,7 +20,7 @@ export default class ShoppingCartController {
    */
   static generateUniqueId(req, res) {
     const cart_id = randomstring.generate(30);
-    return res.json({cart_id});
+    return res.json({ cart_id });
   }
 
   /**
@@ -35,11 +35,13 @@ export default class ShoppingCartController {
    * @returns {Promise<object>}
    */
   static addProductToCart(req, res) {
-    const { cartId, product_id, attributes, quantity } = req.body;
+    const {
+      cartId, product_id, attributes, quantity
+    } = req.body;
     const addedOn = Date.now();
 
-    Product.findOne({ where: { product_id }})
-      .then(product => {
+    Product.findOne({ where: { product_id } })
+      .then((product) => {
         if (!product) {
           return errorResponse(res, 404, 'PRD_2', 'Product not found', 'product_id');
         }
@@ -50,18 +52,18 @@ export default class ShoppingCartController {
           quantity,
           addedOn
         })
-          .then(addedProduct => {
-            let price = product.price
-            if(product.discountedPrice > 0) price = product.discountedPrice;
+          .then((addedProduct) => {
+            let price = product.price;
+            if (product.discountedPrice > 0) price = product.discountedPrice;
             return res.status(201).json({
-              "item_id": addedProduct.itemId,
-              "name": product.name,
-              "attributes": addedProduct.attributes,
-              "product_id": product_id,
-              "image": product.image,
-              "price": price,
-              "quantity": addedProduct.quantity,
-              "subtotal": (price * quantity)
+              item_id: addedProduct.itemId,
+              name: product.name,
+              attributes: addedProduct.attributes,
+              product_id,
+              image: product.image,
+              price,
+              quantity: addedProduct.quantity,
+              subtotal: (price * quantity)
             });
           });
       });
@@ -82,8 +84,8 @@ export default class ShoppingCartController {
     const { cart_id } = req.params;
 
     Model.sequelize.query(`CALL shopping_cart_get_products('${cart_id}');`)
-      .then(shoppingCartList => {
-        if(shoppingCartList.length === 0) {
+      .then((shoppingCartList) => {
+        if (shoppingCartList.length === 0) {
           return errorResponse(res, 404, 'CRT_02', 'No cart available for the shopping_cart_id', 'cart_id');
         }
 
@@ -106,9 +108,9 @@ export default class ShoppingCartController {
     const { item_id } = req.params;
     const { quantity } = req.body;
 
-    ShoppingCart.findOne({ where: {itemId: item_id }})
-      .then(item => {
-        if(!item) {
+    ShoppingCart.findOne({ where: { itemId: item_id } })
+      .then((item) => {
+        if (!item) {
           return errorResponse(res, 404, 'ITM_02', 'No item found', 'item_id');
         }
         Model.sequelize.query(`CALL shopping_cart_update(${item_id}, ${quantity});`)
@@ -130,9 +132,9 @@ export default class ShoppingCartController {
   static emptyShoppingCart(req, res) {
     const { cart_id } = req.params;
 
-    ShoppingCart.findOne({ where: {cartId: cart_id }})
-      .then(sCart => {
-        if(!sCart) {
+    ShoppingCart.findOne({ where: { cartId: cart_id } })
+      .then((sCart) => {
+        if (!sCart) {
           return errorResponse(res, 404, 'CRT_02', 'No Cart found', 'cart_id');
         }
         Model.sequelize.query(`CALL shopping_cart_empty('${cart_id}');`)
@@ -154,9 +156,9 @@ export default class ShoppingCartController {
   static moveToCart(req, res) {
     const { item_id } = req.params;
 
-    ShoppingCart.findOne({ where: {itemId: item_id }})
-      .then(item => {
-        if(!item) {
+    ShoppingCart.findOne({ where: { itemId: item_id } })
+      .then((item) => {
+        if (!item) {
           return errorResponse(res, 404, 'ITM_02', 'No item found', 'item_id');
         }
         Model.sequelize.query(`CALL shopping_cart_move_product_to_cart(${item_id});`)
@@ -178,13 +180,13 @@ export default class ShoppingCartController {
   static getTotalAmount(req, res) {
     const { cart_id } = req.params;
 
-    ShoppingCart.findOne({ where: {cartId: cart_id }})
-      .then(cart => {
-        if(!cart) {
+    ShoppingCart.findOne({ where: { cartId: cart_id } })
+      .then((cart) => {
+        if (!cart) {
           return errorResponse(res, 404, 'CRT_02', 'No cart available for the shopping_cart_id', 'cart_id');
         }
         Model.sequelize.query(`CALL shopping_cart_get_total_amount('${cart_id}');`)
-          .then((totalAmount) => res.json(totalAmount));
+          .then(totalAmount => res.json(totalAmount));
       });
   }
 
@@ -202,9 +204,9 @@ export default class ShoppingCartController {
   static saveForLater(req, res) {
     const { item_id } = req.params;
 
-    ShoppingCart.findOne({ where: {itemId: item_id }})
-      .then(item => {
-        if(!item) {
+    ShoppingCart.findOne({ where: { itemId: item_id } })
+      .then((item) => {
+        if (!item) {
           return errorResponse(res, 404, 'ITM_02', 'No item found', 'item_id');
         }
         Model.sequelize.query(`CALL shopping_cart_save_product_for_later(${item_id});`)
@@ -226,9 +228,9 @@ export default class ShoppingCartController {
   static getSaved(req, res) {
     const { cart_id } = req.params;
 
-    ShoppingCart.findOne({ where: {cartId: cart_id }})
-      .then(cart => {
-        if(!cart) {
+    ShoppingCart.findOne({ where: { cartId: cart_id } })
+      .then((cart) => {
+        if (!cart) {
           return errorResponse(res, 404, 'CRT_02', 'No cart available for the shopping_cart_id', 'cart_id');
         }
         Model.sequelize.query(`CALL shopping_cart_get_saved_products('${cart_id}');`)
@@ -250,9 +252,9 @@ export default class ShoppingCartController {
   static removeProduct(req, res) {
     const { item_id } = req.params;
 
-    ShoppingCart.findOne({ where: {itemId: item_id }})
-      .then(item => {
-        if(!item) {
+    ShoppingCart.findOne({ where: { itemId: item_id } })
+      .then((item) => {
+        if (!item) {
           return errorResponse(res, 404, 'ITM_02', 'No item found', 'item_id');
         }
         Model.sequelize.query(`CALL shopping_cart_remove_product(${item_id});`)
@@ -260,4 +262,3 @@ export default class ShoppingCartController {
       });
   }
 }
-

@@ -24,10 +24,6 @@ export default class OrderController {
     Model.sequelize.query(
       `CALL shopping_cart_create_order('${cart_id}', ${customerId}, ${shipping_id}, ${tax_id})`
     ).then(order => res.json(order));
-    // .catch(err =>
-    //   errorResponse(
-    //     res, 500, err.parent.code, err.parent.sqlMessage, err.parent.sqlMessage.slice(8, 20))
-    // );
   }
 
   /**
@@ -44,9 +40,9 @@ export default class OrderController {
   static getOrderInfo(req, res) {
     const { order_id } = req.params;
 
-    Orders.findOne({ where: { orderId: order_id }})
-      .then(order => {
-        if(!order) {
+    Orders.findOne({ where: { orderId: order_id } })
+      .then((order) => {
+        if (!order) {
           return errorResponse(res, 404, 'ORD_02', 'Order not found', 'order_id');
         }
         Model.sequelize.query(`CALL orders_get_order_info(${order_id})`)
@@ -86,9 +82,9 @@ export default class OrderController {
   static getOrderDetails(req, res) {
     const { order_id } = req.params;
 
-    Orders.findOne({ where: { orderId: order_id }})
-      .then(order => {
-        if(!order) {
+    Orders.findOne({ where: { orderId: order_id } })
+      .then((order) => {
+        if (!order) {
           return errorResponse(res, 404, 'ORD_02', 'Order not found', 'order_id');
         }
         Model.sequelize.query(`CALL orders_get_order_short_details(${order_id})`)

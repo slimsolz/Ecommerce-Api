@@ -23,7 +23,7 @@ describe('GET /attributes', () => {
 describe('GET /attributes/attribute_id', () => {
   it('should get a attributes details', (done) => {
     chai.request(app)
-      .get(`/api/v1/attributes/1`)
+      .get('/api/v1/attributes/1')
       .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res.body).to.be.an('object');
@@ -35,7 +35,7 @@ describe('GET /attributes/attribute_id', () => {
 
   it('should fail if attribute doesn\'t exist', (done) => {
     chai.request(app)
-      .get(`/api/v1/attributes/5000`)
+      .get('/api/v1/attributes/5000')
       .end((err, res) => {
         expect(res).to.have.status(404);
         expect(res.body.error.code).to.equal('ATT_01');
@@ -49,7 +49,7 @@ describe('GET /attributes/attribute_id', () => {
 describe('GET /attributes/values/attribute_id', () => {
   it('should get a attribute values', (done) => {
     chai.request(app)
-      .get(`/api/v1/attributes/values/1`)
+      .get('/api/v1/attributes/values/1')
       .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res.body).to.be.an('array');
@@ -62,7 +62,7 @@ describe('GET /attributes/values/attribute_id', () => {
 
   it('should fail if attribute doesn\'t exist', (done) => {
     chai.request(app)
-      .get(`/api/v1/attributes/values/5000`)
+      .get('/api/v1/attributes/values/5000')
       .end((err, res) => {
         expect(res).to.have.status(404);
         expect(res.body.error.code).to.equal('ATT_01');
@@ -76,7 +76,7 @@ describe('GET /attributes/values/attribute_id', () => {
 describe('GET /attributes/inProduct/product_id', () => {
   it('should get a attribute inProduct details', (done) => {
     chai.request(app)
-      .get(`/api/v1/attributes/inProduct/1`)
+      .get('/api/v1/attributes/inProduct/1')
       .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res.body).to.be.an('array');
@@ -89,7 +89,7 @@ describe('GET /attributes/inProduct/product_id', () => {
 
   it('should fail if product doesn\'t exist', (done) => {
     chai.request(app)
-    .get(`/api/v1/attributes/inProduct/50000`)
+      .get('/api/v1/attributes/inProduct/50000')
       .end((err, res) => {
         expect(res).to.have.status(404);
         expect(res.body.error.code).to.equal('PRD_02');

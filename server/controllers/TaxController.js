@@ -36,9 +36,9 @@ export default class TaxController {
    */
   static getOneTax(req, res) {
     const { tax_id } = req.params;
-    Tax.findOne({ where: { taxId: tax_id }})
-      .then(tax => {
-        if(!tax) {
+    Tax.findOne({ where: { taxId: tax_id } })
+      .then((tax) => {
+        if (!tax) {
           return errorResponse(res, 404, 'TAX_01', 'Don\'t exist tax with this ID', 'tax_id');
         }
 

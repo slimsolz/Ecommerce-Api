@@ -35,9 +35,9 @@ export default class CategoryController {
    */
   static getOneAttribute(req, res) {
     const { attribute_id } = req.params;
-    Attribute.findOne({ where: { attributeId: attribute_id }})
-      .then(attribute => {
-        if(!attribute) {
+    Attribute.findOne({ where: { attributeId: attribute_id } })
+      .then((attribute) => {
+        if (!attribute) {
           return errorResponse(res, 404, 'ATT_01', 'Don\'t exist attribute with this ID', 'attribute_id');
         }
 
@@ -58,9 +58,9 @@ export default class CategoryController {
    */
   static getAttributeValues(req, res) {
     const { attribute_id } = req.params;
-    Attribute.findOne({ where: { attributeId: attribute_id }})
-      .then(attribute => {
-        if(!attribute) {
+    Attribute.findOne({ where: { attributeId: attribute_id } })
+      .then((attribute) => {
+        if (!attribute) {
           return errorResponse(res, 404, 'ATT_01', 'Don\'t exist attribute with this ID', 'attribute_id');
         }
 
@@ -82,14 +82,14 @@ export default class CategoryController {
    */
   static getAttributeInProduct(req, res) {
     const { product_id } = req.params;
-    Product.findOne({ where: { productId: product_id }})
-    .then(product => {
-      if(!product) {
-        return errorResponse(res, 404, 'PRD_02', 'Product not found', 'product_id');
-      }
+    Product.findOne({ where: { productId: product_id } })
+      .then((product) => {
+        if (!product) {
+          return errorResponse(res, 404, 'PRD_02', 'Product not found', 'product_id');
+        }
 
-      Model.sequelize.query(`CALL catalog_get_product_attributes(${product_id});`)
-        .then(attributes => res.json(attributes));
-    });
+        Model.sequelize.query(`CALL catalog_get_product_attributes(${product_id});`)
+          .then(attributes => res.json(attributes));
+      });
   }
 }
