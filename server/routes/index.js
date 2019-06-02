@@ -22,9 +22,7 @@ import {
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  res.json({
-    message: 'Welcome to Turing eCommerce'
-  });
+  res.redirect('/api-docs');
 });
 
 router.post('/customers', validateRegister, CustomerController.register);
